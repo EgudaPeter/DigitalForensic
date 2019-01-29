@@ -1,0 +1,274 @@
+﻿
+
+<ul class="navigation">
+    <li class="active">
+        <a href="@Url.Action("DashBoard","Moneytor",new{area=""})"><i class="menu-icon fa fa-dashboard"></i><span class="mm-text">Dashboard</span></a>
+    </li>
+
+    <li class="mm-dropdown">
+        <a href="#"><i class="menu-icon fa fa-briefcase"></i><span class="mm-text">Pension Fund</span></a>
+        <ul>
+            <li>
+                <a tabindex="-1" href="@Url.Action("CashForecast", "Pension", new { area = "PensionFund" })">
+                    <span class="mm-text">Cash Forecast </span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="mm-dropdown">
+        <a href="#"><i class="menu-icon fa fa-credit-card"></i><span class="mm-text">Dealings / Trading </span></a>
+        <ul>
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text">&nbsp;Money Market</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "MoneyMarket", new { area = "Tradings" })"> <span class="mm-text">&nbsp;Quotation</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "MoneyMarketBMode", new { area = "Tradings" })"> <span class="mm-text">&nbsp;Quotation-Mode B</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "MoneyMarketPlacement", new { area = "Tradings" })"> <span class="mm-text">&nbsp;Placement</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "MoneyMarketTermination", new { area = "Tradings" })"> <span class="mm-text">&nbsp;Termination</span></a></li>
+                </ul>
+            </li>
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text">&nbsp;Bonds</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "Bonds", new { area = "Tradings" })"> <span class="mm-text">&nbsp;Master Mandate</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "BondOrderToBroker", new { area = "Tradings" })"> <span class="mm-text">&nbsp;Order To Broker (shell)</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "BondOrderToBrokerModeB", new { area = "Tradings" })"> <span class="mm-text">&nbsp;Order To Broker</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "BondPurchase", new { area = "Tradings" })"> <span class="mm-text">&nbsp;Purchase</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "BondDisposal", new { area = "Tradings" })"> <span class="mm-text">&nbsp;Disposal</span></a></li>
+                </ul>
+            </li>
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text">&nbsp;Equity</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("DividendReceivable", "DividendReceivable", new { area = "Tradings" })"> <span class="mm-text">&nbsp;Dividend Receivable</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("BonusScript", "BonusScript", new { area = "Tradings" })"> <span class="mm-text">&nbsp;Bonus Script</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li class="mm-dropdown">
+        <a href="#"><i class="menu-icon fa fa-thumbs-o-up"></i><span class="mm-text"> Approvals</span></a>
+        <ul>
+            <li><a tabindex="-1" href="@Url.Action("Index", "Approve", new { area = "Approvals" })"> <span class="mm-text">&nbsp;Cash Forecast</span></a></li>
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text">&nbsp;Money Market</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "AproveMoneyMarket", new { area = "Approvals" })"><span class="mm-text">&nbsp;Quotation</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "ApproveMoneyMarketTermination", new { area="Approvals"})"> <span class="mm-text">&nbsp;Termination</span></a></li>
+                </ul>
+            </li>
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text">&nbsp;Equity</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("ApproveDividendWarrant", "ApproveDividendWarrant", new { area = "Approvals" })"><span class="mm-text">&nbsp;Dividend Warrant</span></a></li>
+                </ul>
+            </li>
+
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text">&nbsp;Bonds</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "ApproveBondMandate", new { area = "Approvals" })"><span class="mm-text">&nbsp;Master Mandate</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "ApproveBondOrderToBroker", new { area = "Approvals" })"><span class="mm-text">&nbsp;Order To Broker</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "ApproveBondsAdjustment", new { area = "Approvals" })"><span class="mm-text">&nbsp;Adjustments</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "ApproveBondCorrection", new { area = "Approvals" })"><span class="mm-text">&nbsp;Interest Correction</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "ApproveAmortConversion", new { area = "Approvals" })"><span class="mm-text">&nbsp;Amortisation Conversion</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "BondSymbolReceipt", new { area = "Approvals" })"><span class="mm-text">Repayment/Coupon Receipt</span></a></li>
+                </ul>
+            </li>
+
+        </ul>
+    </li>
+    <li class="mm-dropdown">
+        <a href="#"><i class="menu-icon fa fa-check-square"></i><span class="mm-text"> Verify</span></a>
+        <ul>
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text"> Money Market</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "MoneyMarketVerify", new { area = "Verifications" })"><span class="mm-text"> Quotation</span></a></li>
+                </ul>
+            </li>
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text">&nbsp;Bond</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "BondOrderToBroker", new { area = "Verifications" })"><span class="mm-text"> Order To Brokers</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li class="mm-dropdown">
+        <a href="#"><i class="menu-icon fa fa-ticket"></i><span class="mm-text"> Receipts</span></a>
+        <ul>
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text"> Money Market</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "MoneyMarketDealReceipts", new { area = "Receipts" })"><span class="mm-text"> Deal Receipts</span></a></li>
+                </ul>
+            </li>
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text"> Bond</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "BondCouponReceipt", new { area = "Receipts" })"><span class="mm-text"> Split Repayment/Coupon</span></a></li>
+
+                </ul>
+            </li>
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text"> Equity</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("DividendWarrant", "DividendWarrant", new { area = "Receipts" })"><span class="mm-text"> Dividend Warrant</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li class="mm-dropdown">
+        <a href="#"><i class="menu-icon fa fa-bolt"></i><span class="mm-text"> Actions</span></a>
+        <ul>
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text"> Money Market</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "AdjustMoneyMarket", new { area = "Actions" })"><span class="mm-text"> Adjustment</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "ReturnCheque", new { area = "Actions" })"><span class="mm-text"> Return Cheque/Receipt</span></a></li>
+
+                </ul>
+            </li>
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text"> Bonds</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "AdjustBond", new { area = "Actions" })"><span class="mm-text"> Adjustments</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "InterestCouponCorrection", new { area = "Actions" })"><span class="mm-text"> Interest/Coupon Correction</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "AmortisationConversion", new { area = "Actions" })"><span class="mm-text"> Amortisation Conversion</span></a></li>
+
+                    <li><a tabindex="-1" href="@Url.Action("Index", "BondPrice", new { area = "Actions" })"><span class="mm-text">Quoted Price</span></a></li>
+
+
+                </ul>
+
+            </li>
+
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text"> Equity</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("BonusDeclaration", "BonusDeclaration", new { area = "Actions" })"><span class="mm-text"> Bonus Declaration</span></a></li>
+                </ul>
+
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("DividendDeclaration", "DividendDeclaration", new { area = "Actions" })"><span class="mm-text"> Dividend Declaration</span></a></li>
+                </ul>
+
+            </li>
+
+        </ul>
+    </li>
+
+    <li class="mm-dropdown">
+        <a href="#"><i class="menu-icon fa fa-cogs"></i><span class="mm-text">Setups</span></a>
+        <ul>
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text">Bonds</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "BondTypes", new { area = "Setup" })"> <span class="mm-text">Bond Types</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "Link2GL", new { area = "Setup" })"> <span class="mm-text">Link to GL</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "BondDefinition", new { area = "Setup" })"> <span class="mm-text">Bond Definition</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "BondTreatment", new { area = "Setup" })"> <span class="mm-text">Bond Treatment Types</span></a></li>
+                </ul>
+            </li>
+
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text">Equity</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "EquityTypes", new { area = "Setup" })"> <span class="mm-text">Share Types</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "EqIssueTypes", new { area = "Setup" })"> <span class="mm-text">Issue Types</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "Equity2GL", new { area = "Setup" })"> <span class="mm-text">Share-GL Link</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "EqSellTrigger", new { area = "Setup" })"> <span class="mm-text">Disposal/Sales Alert</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "EqComm", new { area = "Setup" })"> <span class="mm-text">Equity Commission</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "EqChargesRate", new { area = "Setup" })"> <span class="mm-text">Transaction Charges</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "StockExchange", new { area = "Setup" })"> <span class="mm-text">Stock Exchange</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "PortfolioCSC", new { area = "Setup" })"> <span class="mm-text">Depository</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "Registrar", new { area = "Setup" })"> <span class="mm-text">Registrar</span></a></li>
+
+                </ul>
+            </li>
+
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text">MoneyMarket</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "MoneyMarketTypes", new { area = "Setup" })"> <span class="mm-text">Money Market Types</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "Deal2GL", new { area = "Setup" })"> <span class="mm-text">Link to GL</span></a></li>
+                </ul>
+            </li>
+
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text">Client Management</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "AccountOpeningDocument", new { area = "Setup" })"> <span class="mm-text">Account Opening Document</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "RelationshipManager", new { area = "Setup" })"> <span class="mm-text">Relationship Manager</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "BranchLocation", new { area = "Setup" })"> <span class="mm-text">Branch/Location</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "Employer", new { area = "Setup" })"> <span class="mm-text">Employer</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "InterestRate", new { area = "Setup" })"> <span class="mm-text">Interest Rates</span></a></li>
+                </ul>
+            </li>
+
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text">GL Interface</span></a>
+                <ul>
+                    <li><a tabindex="-1" href="@Url.Action("ChartOfAccounts", "ChartOfAccounts", new { area = "Setup" })"> <span class="mm-text">Chart of Accounts</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("GLAnalysisCodes", "GLAnalysisCodes", new { area = "Setup" })"> <span class="mm-text">GL Analysis Codes</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("PostPeriod", "PostPeriod", new { area = "Setup" })"> <span class="mm-text">Post Period</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("ACodesDefinition", "ACodesDefinition", new { area = "Setup" })"> <span class="mm-text">Analysis Code Definitions</span></a></li>
+                </ul>
+            </li>
+
+            <li class="mm-dropdown">
+                <a tabindex="-1" href="#"> <span class="mm-text">Global</span></a>
+                <ul>
+
+                    <li><a tabindex="-1" href="@Url.Action("Index", "PortfolioCustodian", new { area = "Setup" })"> <span class="mm-text">Custodian</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("", "", new { area = "Setup" })"> <span class="mm-text">Branch List</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("", "", new { area = "Setup" })"> <span class="mm-text">Brokers</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "InstrumentType", new { area = "Setup" })"> <span class="mm-text">Instrument Type</span></a></li>
+
+                    <li><a tabindex="-1" href="@Url.Action("", "", new { area = "Setup" })"> <span class="mm-text">Signatory Vault</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("", "", new { area = "Setup" })"> <span class="mm-text">Economic Sector</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("States", "States", new { area = "Setup" })"> <span class="mm-text">States</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("", "", new { area = "Setup" })"> <span class="mm-text">Country</span></a></li>
+
+
+
+                    <li><a tabindex="-1" href="@Url.Action("Index", "PortfolioCashForeCastClass", new { area = "Setup" })"> <span class="mm-text">Cash Forecast Class</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "TransactionTypes", new { area = "Setup" })"> <span class="mm-text">Fund Movement Types</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "Currency", new { area = "Setup" })"> <span class="mm-text">Currency</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "EconomicSector", new { area = "Setup" })"> <span class="mm-text">Economic Sector</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "ExcRate", new { area = "Setup" })"> <span class="mm-text">Exchange Rate</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Index", "SettlementMode", new { area = "Setup" })"> <span class="mm-text">Settlement Modes</span></a></li>
+
+
+                    <li><a tabindex="-1" href="@Url.Action("", "", new { area = "Setup" })"> <span class="mm-text">Settlement Platforms</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("", "", new { area = "Setup" })"> <span class="mm-text">Identification Types</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("BenchmarkTypes", "BenchmarkTypes", new { area = "Setup" })"> <span class="mm-text">Benchmark-Types</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("BenchmarkRates", "BenchmarkRates", new { area = "Setup" })"> <span class="mm-text">Benchmark-Rates</span></a></li>
+
+                    <li><a tabindex="-1" href="@Url.Action("BalanceBandFactor", "BalanceBandFactor", new { area = "Setup" })"> <span class="mm-text">Interest/Balance Band Factor</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Banks", "Banks", new { area = "Setup" })"> <span class="mm-text">Banks</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("BankAccount", "BankAccount", new { area = "Setup" })"> <span class="mm-text">Bank Accounts</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("Holiday", "Holiday", new { area = "Setup" })"> <span class="mm-text">Holiday Listing</span></a></li>
+                    <li><a tabindex="-1" href="@Url.Action("KnownHoliday", "KnownHoliday", new { area = "Setup" })"> <span class="mm-text">Known Holidays</span></a></li>
+                </ul>
+            </li>
+
+        </ul>
+    </li>
+
+    <li class="mm-dropdown">
+        <a href="#"><i class="menu-icon fa fa-user"></i><span class="mm-text">User Manager</span></a>
+        <ul>
+            <li>
+                <a tabindex="-1" href="@Url.Action("Index", "IbsUsers", new { area = "Account" })">
+                    <span class="mm-text">Users</span>
+                </a>
+            </li>
+            <li>
+                <a tabindex="-1" href="@Url.Action("Index", "RoleManager", new { area = "Account" })"><span class="mm-text">Role Manager</span></a>
+            </li>
+        </ul>
+    </li>
+
+</ul>

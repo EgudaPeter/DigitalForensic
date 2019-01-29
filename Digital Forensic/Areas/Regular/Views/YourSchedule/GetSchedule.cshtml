@@ -1,0 +1,135 @@
+﻿@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "GetSchedule";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function GetSchedule() {
+        if (Key.GetValue() != null) {
+            YourScheduleGridView.PerformCallback({
+                key:Key.GetValue()
+            });
+        }
+        else {
+            swal({
+                title: 'Warning!',
+                html: "Please enter a key!",
+                type: 'warning',
+                allowOutsideClick: false
+            });
+            return;
+        }
+    }
+    function ClearSchedule() {
+        var recordCount = YourScheduleGridView.VisibleRowCount;
+        if (recordCount == 0) {
+            swal({
+                title: 'Warning!',
+                html: "Schedule table is already empty!",
+                type: 'warning'
+            });
+            return;
+        }
+        else {
+            Key.SetValue(null);
+            YourScheduleGridView.PerformCallback({
+                key: null
+            });
+        }
+    }
+    function onBeginCallback() {
+        SiteUtils.loading("Please wait...");
+    }
+    function onEndCallBack(s,e) {
+        SiteUtils.loadingOff();
+        var recordCount = s.cpVisibleRowCount;
+        if (recordCount == 0) {
+            swal({
+                title: 'Info!',
+                html: "No schedule with this key was found!",
+                type: 'info',
+                allowOutsideClick: false
+            });
+            return;
+        }
+    }
+    function SelectSchedule(id) {
+        SiteUtils.loading("Please wait...");
+        var successURL = '@Url.Action("WorkPage", "YourSchedule", new { Area = "Regular" })';
+        $.ajax({
+            url: '@Url.Action("SelectSchedule", "YourSchedule", new { Area = "Regular" })',
+            type: 'Post',
+            data: { ID:id },
+            success: function (data) {
+                SiteUtils.loadingOff();
+                if (data.success == true) {
+                    window.location.href = successURL;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //SelectSchedule
+</script>
+
+<div class="panel panel-default">
+    <div class="panel-heading nopadding">
+        <div class="row nomargin">
+            <div class="col-md-12 padding5">
+                <div class="col-md-2">
+                    <div class="btn-group">
+                        <h4 class="titleStyle">YOUR SCHEDULE</h4>
+                    </div>
+                </div>
+                <div class="col-md-10 action-wrap">
+                    <div class="form-inline">
+                        <div class="pull-right btnMenus" id="btnMenus">
+                            <div class="btn-group">
+                                <button type="button" class="btn" onclick="GetSchedule()"> Get Schedule</button>
+                                <button type="button" class="btn" onclick="ClearSchedule()"> Clear Schedule</button>
+                                @*<button type="button" class="btn" onclick="" id="deleteCode"> Delete</button>*@
+                            </div>
+                        </div>
+                    </div><!--/form-inline-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body" style="background-color:#ffffff !important;">
+        <div class="row">
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="control-label labels col-md-2 Required">Enter Key:</label>
+                    <div class="col-md-3">
+                        @Html.DevExpress().TextBox(settings =>
+                           {
+                               settings.Name = "Key";
+                               settings.ControlStyle.CssClass = "form-control input-sm";
+                               settings.ControlStyle.ForeColor = System.Drawing.Color.Black;
+                               settings.Width = Unit.Percentage(100);
+                               settings.Theme = "MetropolisBlue";
+                           }).GetHtml()
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-8">
+                        @Html.Action("YourScheduleGridViewPartial")
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div><!--Panel -->
+

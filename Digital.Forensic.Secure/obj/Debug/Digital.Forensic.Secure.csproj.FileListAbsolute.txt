@@ -1,0 +1,13 @@
+C:\Digital Forensic\Digital.Forensic.Secure\bin\Debug\Digital.Forensic.Secure.dll
+C:\Digital Forensic\Digital.Forensic.Secure\bin\Debug\Digital.Forensic.Secure.pdb
+C:\Digital Forensic\Digital.Forensic.Secure\bin\Debug\Digital.Forensic.BusinessObjectLayer.dll
+C:\Digital Forensic\Digital.Forensic.Secure\bin\Debug\Digital.Forensic.Repository.dll
+C:\Digital Forensic\Digital.Forensic.Secure\bin\Debug\EntityFramework.dll
+C:\Digital Forensic\Digital.Forensic.Secure\bin\Debug\Digital.Forensic.Models.dll
+C:\Digital Forensic\Digital.Forensic.Secure\bin\Debug\Digital.Forensic.BusinessObjectLayer.pdb
+C:\Digital Forensic\Digital.Forensic.Secure\bin\Debug\Digital.Forensic.Repository.pdb
+C:\Digital Forensic\Digital.Forensic.Secure\bin\Debug\EntityFramework.xml
+C:\Digital Forensic\Digital.Forensic.Secure\bin\Debug\Digital.Forensic.Models.pdb
+C:\Digital Forensic\Digital.Forensic.Secure\obj\Debug\Digital.Forensic.Secure.csprojResolveAssemblyReference.cache
+C:\Digital Forensic\Digital.Forensic.Secure\obj\Debug\Digital.Forensic.Secure.dll
+C:\Digital Forensic\Digital.Forensic.Secure\obj\Debug\Digital.Forensic.Secure.pdb

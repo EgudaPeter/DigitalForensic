@@ -1,0 +1,86 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ActivateAccount</title>
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/bootstrap-extend.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/site.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/bootstrap.min.css")">
+
+    <link href="@Url.Content("~/Content/assets/css/sweetalert2.min.css")" rel="stylesheet" />
+
+    <!-- Page -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/assets/css/pages/login.css")">
+    <!-- Fonts -->
+    <link href="@Url.Content("~/Content/assets/css/custom.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/loader/css/loader.css")" rel="stylesheet" />
+
+    @*<link rel="stylesheet" href="@Url.Content("~/Content/assets/fonts/web-icons/web-icons.min.css")">
+        <link rel="stylesheet" href="@Url.Content("~/Content/assets/fonts/brand-icons/brand-icons.min.css")">
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>*@
+
+    <!--[if lt IE 9]>
+      <script src="@Url.Content("~/Content/assets/vendor/html5shiv/html5shiv.min.js")"></script>
+      <![endif]-->
+    <!--[if lt IE 10]>
+      <script src="@Url.Content("~/Content/assets/vendor/media-match/media.match.min.js")"></script>
+      <script src="@Url.Content("~/Content/assets/vendor/respond/respond.min.js")"></script>
+      <![endif]-->
+    <!-- Scripts -->
+    <script src="@Url.Content("~/Content/assets/vendor/modernizr/modernizr.js")"></script>
+    <script src="@Url.Content("~/Content/assets/vendor/breakpoints/breakpoints.js")"></script>
+    <script>
+        Breakpoints();
+    </script>
+</head>
+<body class="page-login layout-full" style="background-color:#5cb85c">
+    <!--[if lt IE 8]>
+          <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+    <!-- Page -->
+    <div class="page animsition vertical-align text-center" data-animsition-in="fade-in" data-animsition-out="fade-out">
+        <div class="page-content vertical-align-middle">
+            @if (TempData["Msg"] != null)
+            {
+                if (TempData["Msg"].ToString().Contains("successful"))
+                {
+                    <div class="brand">
+                        <h1>Account verified</h1>
+                    </div>
+                    <form action="#">
+                        <input type="button" style="font-weight:bold;cursor:pointer; background-color:#5cb85c; color:#000;" onclick="GoToLogin()" value="Please click here to go to login page" />
+                    </form>
+                }
+                else if (TempData["Msg"].ToString().Contains("failed"))
+                {
+                    <div class="brand">
+                        <h1>Verfication failed</h1>
+                    </div>
+                    <form action="#">
+                        <input type="button" style="font-weight:bold;cursor:pointer; background-color:#ff0000; color:#000;" onclick="" value="Please click here to send complaint" />
+                    </form>                   
+                }
+            }
+        </div>
+    </div>
+    <!-- End Page -->
+    <!-- Core -->
+    <script src="@Url.Content("~/Content/assets/js/sweetalert2.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/vendor/jquery/jquery.js")"></script>
+    <script src="@Url.Content("~/Content/assets/vendor/bootstrap/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/sweetalert2.min.js")"></script>
+    <script src="@Url.Content("~/Content/loader/js/AppUtils.js")"></script>
+    <script>
+        function GoToLogin() {
+            var successUrl = '@Url.Action("Login","Authenticate",new { Area = "" })';
+            window.location.href = successUrl;
+        }
+    </script>
+</body>
+</html>

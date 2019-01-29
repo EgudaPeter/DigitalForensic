@@ -1,0 +1,280 @@
+﻿
+@{
+    ViewBag.Title = "EncryptPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Web.UI.WebControls
+
+<style>
+    hr {
+        margin-top: 0px;
+        margin-bottom: 3px;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        GetPublicKey();
+        MarkUsers();
+        $("#file").change(function () {
+            return CheckIfUserHasChoosenAFile();
+        });
+    });
+
+    function MarkUsers() {
+        var indicesToSelect = new Array();
+        for (var i = 0; i < checkBoxList.GetItemCount() ; i++) {
+            indicesToSelect.push(i);
+        }
+        checkBoxList.SelectIndices(indicesToSelect);
+    }
+
+    function CheckIfUserHasChoosenAFile() {
+        if (document.getElementById("file").files.length == 0) {
+            $("#Submit").attr("disabled", true);
+        }
+        else {
+            $("#Submit").attr("disabled", false);
+        }
+    }
+
+    function GetPublicKey() {
+        $.ajax({
+            url: '@Url.Action("GetPublicKey", "WorkSchedule", new { Area = "Admin" })',
+            type: 'Post',
+            data: {},
+            success: function (data) {
+                if (data.success == true) {
+                    $("#publicKey").val(data.publicKey);
+                    return;
+                }
+                if (data.success == -1) {
+                    WorkScheduleGridView.UnselectRows();
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //GetPublicKey
+
+    function GetDEToPushViaTabControlButton() {
+        if (EncryptedFile.GetValue() == null) {
+            swal({
+                title: 'Warning!',
+                html: "Please encrypt DE before you can push DE!",
+                type: 'warning',
+                allowOutsideClick: false
+            });
+            return;
+        }
+        return PushDE();
+    }
+    function GetDCoCToPushViaTabControlButton() {
+        if (EncryptedFile.GetValue() == null) {
+            swal({
+                title: 'Warning!',
+                html: "Please encrypt DCoC before you can push DCoC!",
+                type: 'warning',
+                allowOutsideClick: false
+            });
+            return;
+        }
+        return PushDCoC();
+    }
+
+    function PushDE() {
+        SiteUtils.loading("Pushing...");
+        $.ajax({
+            url: '@Url.Action("PushDE", "WorkSchedule", new { Area = "Admin" })',
+            type: 'Post',
+            data: { publicKey: $("#publicKey").val() },
+            success: function (data) {
+                SiteUtils.loadingOff();
+                if (data.success == true) {
+                    swal({
+                        title: 'Success!',
+                        html: data.infoMessage,
+                        type: 'success',
+                        allowOutsideClick: false
+                    }).then(function () {
+                        EncryptedPath.SetValue(null);
+                        EncryptedFile.SetValue(null);
+                    });
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //Push file
+
+    function PushDCoC() {
+        SiteUtils.loading("Pushing...");
+        $.ajax({
+            url: '@Url.Action("PushDCoC", "WorkSchedule", new { Area = "Admin" })',
+            type: 'Post',
+            data: { publicKey: $("#publicKey").val() },
+            success: function (data) {
+                SiteUtils.loadingOff();
+                if (data.success == true) {
+                    swal({
+                        title: 'Success!',
+                        html: data.infoMessage,
+                        type: 'success',
+                        allowOutsideClick: false
+                    }).then(function () {
+                        EncryptedPath.SetValue(null);
+                        EncryptedFile.SetValue(null);
+                    });
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //Push DCoC
+
+    function promptUserBeforeGoingBack() {
+        swal({
+            title: 'Are you sure?',
+            html: 'Inputs will be lost',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-info',
+            cancelButtonClass: 'btn btn-primary',
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Okay',
+            cancelButtonText: '<i class="fa fa-thumbs-down"></i> Cancel',
+            allowOutsideClick: false
+        }).then(function () {
+            var backURL = '@Url.Action("Schedule","WorkSchedule",new { Area = "Admin" })';
+            window.location.href = backURL;
+        });
+    } //promptUserBeforeGoingBack
+
+</script>
+
+
+@using (Html.BeginForm("Upload", "WorkSchedule", FormMethod.Post, new { Area = "Admin", enctype = "multipart/form-data" }))
+{
+
+    <div class="panel panel-default">
+        <div class="panel-heading nopadding">
+            <div class="row nomargin">
+                <div class="col-md-12 padding5">
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <h4 class="titleStyle">ENCRYPTION</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-10 action-wrap">
+                        <div class="form-inline">
+                            <div class="pull-right btnMenus" id="btnMenus">
+                                <div class="btn-group">
+                                    <input type="submit" class="btn" disabled name="Submit" id="Submit" value="Encrypt" />
+                                    <button type="button" class="btn" onclick="GetDEToPushViaTabControlButton()">Push DE</button>
+                                    <button type="button" class="btn" onclick="GetDCoCToPushViaTabControlButton()">Push DCoC</button>
+                                    <button type="button" class="btn" onclick="promptUserBeforeGoingBack()">Cancel</button>
+                                </div>
+                            </div>
+                        </div><!--/form-inline-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body" style="min-height:50px !important; background-color:#ffffff !important;">
+            <div class="row">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Selected Actors: </label>
+                        <div class="col-md-4">
+                            @Html.Action("CheckBoxListPartial")
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Public Key: </label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input id="publicKey" readonly type="text" name="publicKey" class="form-control input-sm" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <input id="file" class="form-control btn" name="file" style="margin-left:80px;" type="file" accept=".jpg, .jpeg, .png, .mp4, .mp3, .txt, .pdf" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Encrypted Path: </label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                @Html.DevExpress().Memo(settings =>
+                           {
+                               settings.Name = "EncryptedPath";
+                               settings.Properties.Rows = 4;
+                               settings.Width = 500;
+                               settings.ReadOnly = true;
+                           }).Bind(ViewBag.EncrptedPath).GetHtml()
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Encrypted File: </label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                @Html.DevExpress().Memo(settings =>
+                        {
+                            settings.Name = "EncryptedFile";
+                            settings.Properties.Rows = 10;
+                            settings.Width = 500;
+                            settings.ReadOnly = true;
+                        }).Bind(ViewBag.EncryptedContents).GetHtml()
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                        <label class="control-label col-md-2"> Encrypted DCoC File: </label>
+                        <div class="col-md-8">
+                            @Html.DevExpress().Memo(settings =>
+                            {
+                                settings.Name = "EncryptedDCoCFile";
+                                settings.Properties.Rows = 10;
+                                settings.Width = 500;
+                                settings.ReadOnly = true;
+                            }).Bind(ViewBag.EncryptedDCoCContents).GetHtml()
+                        </div>
+                    </div>*@
+
+                </div>
+            </div>
+        </div>
+    </div><!--Panel -->
+}
+
+

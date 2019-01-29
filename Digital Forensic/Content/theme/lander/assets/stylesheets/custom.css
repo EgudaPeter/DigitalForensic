@@ -1,0 +1,56 @@
+﻿.theme-dust #main-navbar .navbar-header {
+    background: #eee !important;
+}
+.navbar-brand img {
+    width: 130px;
+}
+
+.full-panel {
+    min-height: 500px !important;
+}
+/*.theme-dust #main-menu-bg, .theme-dust .mmc-dropdown-open > ul {
+    background: #2c3e50 !important;
+}
+
+.theme-dust #main-menu .mm-dropdown > ul {
+    background: #394951 !important;
+}
+
+.theme-dust #main-menu .navigation li.active > a {
+    color: #fff;
+    background: #394951 !important;
+}
+
+.navigation li a {
+    color: #bbb !important;
+}
+    */
+
+/*#main-navbar {
+    min-height: 70px;
+    height: 70px;
+}
+
+    #main-navbar .navbar-inner {
+        min-height: 70px;
+        height: 70px;
+    }
+
+    #main-navbar .navbar-collapse {
+   height: 70px;
+}
+
+    .navbar-inverse {
+    background-color: #fff;
+    border-color: #fff;
+}
+    #main-navbar #main-menu-toggle {
+        height: 70px;
+    }
+    .navbar-header {
+        height: 70px;
+    }
+
+    #main-menu .navigation {
+    padding: 70px 0 0 !important;
+}*/

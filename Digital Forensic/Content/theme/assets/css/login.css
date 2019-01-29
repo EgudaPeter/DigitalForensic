@@ -1,0 +1,186 @@
+﻿html, body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    position: fixed !important;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+
+.login-page-wrap {
+    height: 100%;
+    background: url('../img/loginbg.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.log-wrap {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: auto;
+    min-height: 100%;
+    padding: 150px 60px 180px;
+    color: #76838f;
+    background:#eeeeee
+}
+
+    .log-wrap .panel {
+        height: 370px;
+    }
+
+    .log-wrap .panel-body {
+        height: 250px;
+    }
+
+.space-top-40 {
+    height: 40px;
+}
+
+.page-brand-info {
+    margin: 220px 100px 0 90px;
+}
+
+@media (min-width: 992px) {
+    .page-content {
+        padding-right: 500px;
+    }
+}
+
+.page-content {
+    padding: 30px 30px;
+    padding-right: 520px;
+}
+
+
+
+.brand {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.page-brand-info {
+    border-bottom: 1px solid #666;
+}
+
+
+    .page-brand-info .brand-img {
+        vertical-align: middle;
+        height: 60px;
+        text-align: center;
+    }
+
+.font-size-24 {
+    font-size: 24px !important;
+}
+
+.lgform {
+    width: 350px;
+    margin: 45px 0 20px;
+}
+
+    .lgform .form-group {
+        margin-bottom: 20px;
+    }
+
+    .lgform .form-control {
+        display: block;
+        width: 100%;
+        height: 36px;
+        padding: 6px 15px;
+        font-size: 14px;
+        line-height: 1.57142857;
+        color: #76838f;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #e4eaec;
+        border-radius: 3px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+
+    .lgform button {
+        margin-top: 38px;
+        padding: 10px;
+    }
+
+.checkbox-custom.checkbox-inline {
+    margin-top: 0;
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.checkbox-custom {
+    padding-left: 20px;
+}
+
+.checkbox-custom, .radio-custom {
+    position: relative;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+.page-copyright {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    height: 100px;
+    margin: 50px 0;
+    text-align: center;
+    -webkit-transform: translate(-50%,0);
+    -ms-transform: translate(-50%,0);
+    -o-transform: translate(-50%,0);
+    transform: translate(-50%,0);
+    margin-top: 60px;
+    color: #37474f;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.app-features {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    -moz-flex-direction: row;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    justify-content: center;
+     -moz-justify-content:center;
+    -webkit-justify-content: center;
+}
+
+    .app-features .item {
+        text-align: center;
+        width: 25%;
+    }
+
+        .app-features .item i {
+            background: #03a9f4;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            text-align: center;
+            padding-top: 11px;
+            padding-left: 2px;
+            color:rgba(235, 240, 251, 0.57);
+            font-size: 30px;
+        }
+
+        .app-features .item p {
+            font-size: 20px;
+            color: rgba(235, 240, 251, 0.57);
+            font-weight: 700;
+        }

@@ -1,0 +1,10 @@
+C:\Digital Forensic\Digital.Forensic.BusinessObjectLayer\bin\Debug\Digital.Forensic.BusinessObjectLayer.dll.config
+C:\Digital Forensic\Digital.Forensic.BusinessObjectLayer\bin\Debug\Digital.Forensic.BusinessObjectLayer.dll
+C:\Digital Forensic\Digital.Forensic.BusinessObjectLayer\bin\Debug\Digital.Forensic.BusinessObjectLayer.pdb
+C:\Digital Forensic\Digital.Forensic.BusinessObjectLayer\bin\Debug\EntityFramework.dll
+C:\Digital Forensic\Digital.Forensic.BusinessObjectLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Digital Forensic\Digital.Forensic.BusinessObjectLayer\bin\Debug\EntityFramework.xml
+C:\Digital Forensic\Digital.Forensic.BusinessObjectLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Digital Forensic\Digital.Forensic.BusinessObjectLayer\obj\Debug\Digital.Forensic.BusinessObjectLayer.csprojResolveAssemblyReference.cache
+C:\Digital Forensic\Digital.Forensic.BusinessObjectLayer\obj\Debug\Digital.Forensic.BusinessObjectLayer.dll
+C:\Digital Forensic\Digital.Forensic.BusinessObjectLayer\obj\Debug\Digital.Forensic.BusinessObjectLayer.pdb

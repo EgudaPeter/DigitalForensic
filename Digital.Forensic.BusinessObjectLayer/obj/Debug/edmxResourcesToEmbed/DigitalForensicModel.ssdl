@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DigitalForensicModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Actors">
+    <Key>
+      <PropertyRef Name="AID" />
+    </Key>
+    <Property Name="AID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WID" Type="int" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="AdminID" />
+    </Key>
+    <Property Name="AdminID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AdminSurname" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="AdminFirstname" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="AdminMiddlename" Type="varchar" MaxLength="50" />
+    <Property Name="AdminUsername" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="AdminPassword" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="AdminPhone" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="Role" Type="varchar" MaxLength="5" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AdminLogin">
+    <Key>
+      <PropertyRef Name="loginID" />
+    </Key>
+    <Property Name="loginID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="adminUsername" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="adminPassword" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="adminLoginDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DCoC">
+    <Key>
+      <PropertyRef Name="FileID" />
+    </Key>
+    <Property Name="FileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WID" Type="int" />
+    <Property Name="DCoCFileName" Type="varchar" MaxLength="500" />
+    <Property Name="DCoCFileExtension" Type="varchar" MaxLength="50" />
+    <Property Name="DCoCFileData" Type="text" />
+    <Property Name="DCoCFileDataEnc" Type="text" />
+  </EntityType>
+  <EntityType Name="DigitalEvidence">
+    <Key>
+      <PropertyRef Name="FileID" />
+    </Key>
+    <Property Name="FileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WID" Type="int" Nullable="false" />
+    <Property Name="FileData" Type="text" Nullable="false" />
+    <Property Name="FileDataEnc" Type="text" />
+    <Property Name="FileName" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="FileExtension" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FileHashedValue" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="GsmValidator">
+    <Key>
+      <PropertyRef Name="ID_GsmFormat" />
+    </Key>
+    <Property Name="ID_GsmFormat" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProviderCode" Type="varchar" MaxLength="20" />
+    <Property Name="Gsm1st3Digits" Type="varchar" MaxLength="3" />
+    <Property Name="GsmNoLenght" Type="int" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UID" />
+    </Key>
+    <Property Name="UID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Surname" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Firstname" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="CapturedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="isActivated" Type="bit" />
+    <Property Name="HasChangedPassword" Type="bit" />
+    <Property Name="UserRole" Type="varchar" MaxLength="10" />
+    <Property Name="Email" Type="varchar" MaxLength="200" />
+    <Property Name="ActivationCode" Type="uniqueidentifier" />
+  </EntityType>
+  <EntityType Name="WorkSchedule">
+    <Key>
+      <PropertyRef Name="WID" />
+    </Key>
+    <Property Name="WID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PublicKey" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="NoOfActors" Type="int" Nullable="false" />
+    <Property Name="GeneratedBy" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+  </EntityType>
+  <EntityContainer Name="DigitalForensicModelStoreContainer">
+    <EntitySet Name="Actors" EntityType="Self.Actors" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AdminLogin" EntityType="Self.AdminLogin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DCoC" EntityType="Self.DCoC" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DigitalEvidence" EntityType="Self.DigitalEvidence" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GsmValidator" EntityType="Self.GsmValidator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WorkSchedule" EntityType="Self.WorkSchedule" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

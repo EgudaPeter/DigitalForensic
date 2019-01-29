@@ -1,0 +1,801 @@
+﻿@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "CreateUsers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+
+    var selectedIDs;
+    var tempUsername = null;
+    var tempEmail = null;
+
+    /******************************Add User***********************************/
+
+    function promptUserBeforeSavingUser() {
+        swal({
+            title: 'Confirm?',
+            html: 'Save record?',
+            type: 'info',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-info',
+            cancelButtonClass: 'btn btn-primary',
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Save',
+            cancelButtonText: '<i class="fa fa-thumbs-down"></i> Cancel',
+            allowOutsideClick: false
+        }).then(function () {
+            var result = ValidateUserForm();
+            if (result == true) {
+                //$('#addUser').modal("hide");
+                return CheckIfUsernameIsUnique();
+            }
+            if (result == false) {
+                var infoMsg = "Please define required fields <b>[Surname, Firstname, Username, and Email]</b>" +
+                      " before progressing to save record!";
+                swal({
+                    title: 'Warning!',
+                    html: infoMsg,
+                    type: 'warning'
+                });
+                return;
+            }
+            if (result == -1) {
+                return;
+            }
+        });
+    }
+
+    function promptUserBeforeClosingUserModal() {
+        swal({
+            title: 'Are you sure?',
+            html: 'Inputs will be lost',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-info',
+            cancelButtonClass: 'btn btn-primary',
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Okay',
+            cancelButtonText: '<i class="fa fa-thumbs-down"></i> Cancel',
+            allowOutsideClick: false
+        }).then(function () {
+            $('#addUser').modal("hide");
+        });
+    }
+
+    function ValidateUserForm() {
+        if (SurName.GetValue() != null && FirstName.GetValue() != null && Email.GetValue() != null &&
+            UserName.GetValue() != null && $("#Password").val() != null) {
+            return true;
+        }
+        return false;
+    }
+
+    function DisplayUserForm() {
+        $.ajax({
+            url: '@Url.Action("GenerateRandomPassword","Admin",new { Area = "Admin" })',
+            type: 'Post',
+            data: {},
+            success: function (data) {
+                if (data.success == true) {
+                    clearFields();
+                    $("#addUser").modal({ backdrop: 'static', keyboard: false });
+                    $("#addUser").modal('show');
+                    $("#Password").val(data.password);
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //DisplayUserForm
+
+    function clearFields() {
+        SurName.SetValue(null);
+        FirstName.SetValue(null);
+        Email.SetValue(null);
+        UserName.SetValue(null);
+    }
+
+    function CheckIfUsernameIsUnique() {
+        var userName = UserName.GetValue();
+        if (userName == null || userName == "") {
+            return;
+        }
+        $.ajax({
+            url: '@Url.Action("ValidateUsername", "Admin",new { Area = "Admin" })',
+            type: 'Post',
+            data: { _userName: userName },
+            success: function (data) {
+                if (data.success == true) {
+                    return ValidateEmail();
+                }
+                if (data.success == false) {
+                    swal({
+                        title: 'Warning!',
+                        html: data.infoMessage,
+                        type: 'warning',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //Check If Username Is Unique
+
+    function ValidateEmail() {
+        var email = Email.GetValue();
+        if (email == null || email == "") {
+            return;
+        }
+        $.ajax({
+            url: '@Url.Action("ValidateEmail", "Admin",new { Area = "Admin" })',
+            type: 'Post',
+            data: { Email: email },
+            success: function (data) {
+                if (data.success == true) {
+                    $('#addUser').modal("hide");
+                    return saveUser();
+                }
+                if (data.success == false) {
+                    swal({
+                        title: 'Warning!',
+                        html: data.infoMessage,
+                        type: 'warning',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //Validate Email
+
+    function saveUser() {
+        SiteUtils.loading("Saving...");
+        var dataArray = {
+            Surname: SurName.GetValue(),
+            Firstname: FirstName.GetValue(),
+            Username: UserName.GetValue(),
+            Password: $("#Password").val(),
+            Email: Email.GetValue()
+        };
+        $.ajax({
+            url: '@Url.Action("AddUser", "Admin", new { Area = "Admin" })',
+            type: 'Post',
+            data: { Data: dataArray },
+            success: function (data) {
+                SiteUtils.loadingOff();
+                if (data.success == true) {
+                    UsersGridView.Refresh();
+                    swal({
+                        title: 'Success!',
+                        html: data.infoMessage,
+                        type: 'success',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //Save User
+
+    /************************************************************************/ //Add user
+
+    /******************************Update User***********************************/
+    function promptUserBeforeUpdatingUser() {
+        swal({
+            title: 'Confirm?',
+            html: 'Update record?',
+            type: 'info',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-info',
+            cancelButtonClass: 'btn btn-primary',
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Update',
+            cancelButtonText: '<i class="fa fa-thumbs-down"></i> Cancel',
+            allowOutsideClick: false
+        }).then(function () {
+            var result = ValidateUserUpdateForm();
+            if (result == true) {
+                return CheckIfUsernameForUpdateFormIsUnique();
+            }
+            if (result == false) {
+                var infoMsg = "Please define required fields <b>[Surname, Firstname, Username, and Email]</b>" +
+                      " before progressing to update record!";
+                swal({
+                    title: 'Warning!',
+                    html: infoMsg,
+                    type: 'warning'
+                });
+                return;
+            }
+            if (result == -1) {
+                return;
+            }
+        });
+    }
+
+    function promptUserBeforeClosingUserUpdateModal() {
+        swal({
+            title: 'Are you sure?',
+            html: 'Inputs will be lost',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-info',
+            cancelButtonClass: 'btn btn-primary',
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Okay',
+            cancelButtonText: '<i class="fa fa-thumbs-down"></i> Cancel',
+            allowOutsideClick: false
+        }).then(function () {
+            $('#updateUser').modal("hide");
+        });
+    }
+
+    function ValidateUserUpdateForm() {
+        if (E_SurName.GetValue() != null && E_FirstName.GetValue() != null && E_Email.GetValue() != null &&
+            E_UserName.GetValue() != null && $("#E_Password").val() != null) {
+            return true;
+        }
+        return false;
+    }
+
+    function GetRecordToEditViaTabControlButton() {
+        if (selectedIDs == null || selectedIDs == "") {
+            swal({
+                title: 'Warning!',
+                html: "Please select a record to change!",
+                type: 'warning',
+                allowOutsideClick: false
+            });
+            return;
+        }
+        var arrIds = selectedIDs.split(",");
+        if (arrIds.length > 1) {
+            swal({
+                title: 'Warning!',
+                html: "Please select one record to change at a time!",
+                type: 'warning',
+                allowOutsideClick: false
+            });
+            return;
+        }
+        return GetUserToUpdate(selectedIDs);
+    }
+
+    function GetUserToUpdate(id) {
+        $.ajax({
+            url: '@Url.Action("GetUserToUpdate", "Admin",new { Area = "Admin" })',
+            type: 'Post',
+            data: { ID: id },
+            success: function (data) {
+                if (data.success == true) {
+                    $("#updateUser").modal({ backdrop: 'static', keyboard: false });
+                    $("#updateUser").modal('show');
+                    tempUsername = data.userName;
+                    tempEmail = data.email;
+                    E_ID.SetValue(data.id);
+                    E_SurName.SetValue(data.surName);
+                    E_FirstName.SetValue(data.firstName);
+                    E_UserName.SetValue(data.userName);
+                    E_Email.SetValue(data.email);
+                    $("#E_Password").val(data.password);
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //GetUserToUpdate
+
+    function CheckIfUsernameForUpdateFormIsUnique() {
+        var userName = E_UserName.GetValue();
+        if (userName == null || userName == "") {
+            return;
+        }
+        if (tempUsername == userName) {
+            return ValidateUpdateFormEmail();
+        }
+        $.ajax({
+            url: '@Url.Action("ValidateUsername", "Admin",new { Area = "Admin" })',
+            type: 'Post',
+            data: { _userName: userName },
+            success: function (data) {
+                if (data.success == true) {
+                    return ValidateUpdateFormEmail();
+                }
+                if (data.success == false) {
+                    swal({
+                        title: 'Warning!',
+                        html: data.infoMessage,
+                        type: 'warning',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //Check If Username for update form Is Unique
+
+    function ValidateUpdateFormEmail() {
+        var email = E_Email.GetValue();
+        if (email == null || email == "") {
+            return;
+        }
+        if (tempEmail == email) {
+            $('#updateUser').modal("hide");
+            return updateUser();
+        }
+        $.ajax({
+            url: '@Url.Action("ValidateEmail", "Admin",new { Area = "Admin" })',
+            type: 'Post',
+            data: { Email: email },
+            success: function (data) {
+                if (data.success == true) {
+                    $('#updateUser').modal("hide");
+                    return updateUser();
+                }
+                if (data.success == false) {
+                    swal({
+                        title: 'Warning!',
+                        html: data.infoMessage,
+                        type: 'warning',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //Validate Update form Email
+
+    function updateUser() {
+        SiteUtils.loading("Updating...");
+        var dataArray = {
+            UID: E_ID.GetValue(),
+            Surname: E_SurName.GetValue(),
+            Firstname: E_FirstName.GetValue(),
+            Username: E_UserName.GetValue(),
+            Password: $("#E_Password").val(),
+            Email: E_Email.GetValue()
+        };
+        $.ajax({
+            url: '@Url.Action("UpdateUser", "Admin", new { Area = "Admin" })',
+            type: 'Post',
+            data: { Data: dataArray },
+            success: function (data) {
+                SiteUtils.loadingOff();
+                if (data.success == true) {
+                    UsersGridView.Refresh();
+                    swal({
+                        title: 'Success!',
+                        html: data.infoMessage,
+                        type: 'success',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //Update User
+
+    /***************************************************************************/ //Update User
+
+ 
+
+    $(document).ready(function () {
+        //$("#recordCount").text(0);
+        $("#showPassword").change(function () {
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $("#Password").attr("type", "text");
+            }
+            else {
+                $("#Password").attr("type", "password");
+            }
+        });
+        $("#E_showPassword").change(function () {
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $("#E_Password").attr("type", "text");
+            }
+            else {
+                $("#E_Password").attr("type", "password");
+            }
+        });
+    });
+
+    function DeleteASingleUser(id) {
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-danger',
+            cancelButtonClass: 'btn btn-primary',
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Delete',
+            cancelButtonText: '<i class="fa fa-thumbs-down"></i> Cancel',
+            allowOutsideClick: false
+        }).then(function () {
+            SiteUtils.loading("Deleting...");
+            $.ajax({
+                url: '@Url.Action("DeleteUser", "Admin", new { Area = "Admin" })',
+                type: 'Post',
+                data: { selectedKey: id },
+                success: function (data) {
+                    SiteUtils.loadingOff();
+                    if (data.success == true) {
+                        UsersGridView.Refresh();
+                        swal({
+                            title: 'Success!',
+                            html: data.infoMessage,
+                            type: 'success',
+                            allowOutsideClick: false
+                        });
+                        return;
+                    }
+                    if (data.success == -1) {
+                        swal({
+                            title: 'Error!',
+                            html: data.errorMessage,
+                            type: 'error',
+                            allowOutsideClick: false
+                        });
+                        return;
+                    }
+                }
+            });
+        });
+    } //Delete A Single User
+
+    function DeleteGroupOfUsers() {
+        swal({
+            title: 'Warning',
+            text: "You are about to delete " + UsersGridView.GetSelectedRowCount() + " record(s) from Users." +
+            " You won't be able to revert this process. Proceed?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-danger',
+            cancelButtonClass: 'btn btn-primary',
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Delete',
+            cancelButtonText: '<i class="fa fa-thumbs-down"></i> Cancel',
+            allowOutsideClick: false
+        }).then(function () {
+            SiteUtils.loading("Deleting...");
+            $.ajax({
+                url: '@Url.Action("DeleteUsers", "Admin", new { Area = "Admin" })',
+                type: 'Post',
+                data: { selectedKeys: selectedIDs },
+                success: function (data) {
+                    SiteUtils.loadingOff();
+                    if (data.success == true) {
+                        UsersGridView.Refresh();
+                        swal({
+                            title: 'Success!',
+                            html: data.infoMessage,
+                            type: 'success',
+                            allowOutsideClick: false
+                        }).then(function () {
+                            UsersGridView.UnselectRows();
+                        });
+                        return;
+                    }
+                    if (data.success == -1) {
+                        UsersGridView.UnselectRows();
+                        swal({
+                            title: 'Error!',
+                            html: data.errorMessage,
+                            type: 'error',
+                            allowOutsideClick: false
+                        });
+                        return;
+                    }
+                }
+            });
+        });
+    } //Delete A Group Of users
+
+    function GetRecordToDeleteViaTabControlButton() {
+        if (selectedIDs == null || selectedIDs == "") {
+            swal({
+                title: 'Warning!',
+                html: "Please select one or more record(s) to delete!",
+                type: 'success',
+                allowOutsideClick: false
+            });
+            return;
+        }
+        return DeleteGroupOfUsers();
+    }
+
+    function OnSelectionChanged(s, e) {
+        s.GetSelectedFieldValues("UID", GetSelectedFieldValuesCallback);
+    }
+
+    function GetSelectedFieldValuesCallback(values) {
+        if (values.length == 0) {
+       //
+        }
+        selectedIDs = values.join(',');
+    }
+
+</script>
+
+<div class="panel panel-default">
+    <div class="panel-heading nopadding">
+        <div class="row nomargin">
+            <div class="col-md-12 padding5">
+                <div class="col-md-2">
+                    <div class="btn-group">
+                        <h4 class="titleStyle">USERS</h4>
+                    </div>
+                </div>
+                <div class="col-md-10 action-wrap">
+                    <div class="form-inline">
+                        <div class="pull-right btnMenus" id="btnMenus">
+                            <div class="btn-group">
+                                <button type="button" class="btn" onclick="DisplayUserForm()"> Insert</button>
+                                <button type="button" class="btn" onclick="GetRecordToEditViaTabControlButton()"> Change</button>
+                                <button type="button" class="btn" onclick="GetRecordToDeleteViaTabControlButton()" id="deleteCode"> Delete</button>
+                            </div>
+                        </div>
+                    </div><!--/form-inline-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body" style="background-color:#ffffff !important;">
+        <div class="col-md-12">
+            <div class="" style="overflow-x:auto">
+                <div class="table-responsive">
+                    @*<a style="color:#000; font-weight:bold; margin-right:0px;" id="helperText">[Total rows selected:]</a>
+                        <a style="color:#000;font-weight:bold; margin-right:20px;" id="recordCount"></a>*@
+                    @Html.Action("UsersGridViewPartial")
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--Panel -->
+
+
+<div id="addUser" class="modal fade" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal-dialog modal-super-scaled">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add User</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="control-label labels col-md-2 Required">Surname:</label>
+                        <div class="col-md-4">
+                            @Html.DevExpress().TextBox(settings =>
+                           {
+                               settings.Name = "SurName";
+                               settings.ControlStyle.CssClass = "form-control input-sm";
+                               settings.ControlStyle.ForeColor = System.Drawing.Color.Black;
+                               settings.Width = Unit.Percentage(100);
+                               settings.Theme = "MetropolisBlue";
+                           }).GetHtml()
+                        </div>
+                        <label class="control-label labels col-md-2 Required">Firstname:</label>
+                        <div class="col-md-4">
+                            @Html.DevExpress().TextBox(settings =>
+                           {
+                               settings.Name = "FirstName";
+                               settings.ControlStyle.CssClass = "form-control input-sm";
+                               settings.ControlStyle.ForeColor = System.Drawing.Color.Black;
+                               settings.Width = Unit.Percentage(100);
+                               settings.Theme = "MetropolisBlue";
+                           }).GetHtml()
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label labels col-md-2 Required">Username:</label>
+                        <div class="col-md-4">
+                            @Html.DevExpress().TextBox(settings =>
+                           {
+                               settings.Name = "UserName";
+                               settings.ControlStyle.CssClass = "form-control input-sm";
+                               settings.ControlStyle.ForeColor = System.Drawing.Color.Black;
+                               settings.Width = Unit.Percentage(100);
+                               settings.Theme = "MetropolisBlue";
+                           }).GetHtml()
+                        </div>
+                        <label class="control-label labels col-md-2 Required">Email:</label>
+                        <div class="col-md-4">
+                            @Html.DevExpress().TextBox(settings =>
+                            {
+                                settings.Name = "Email";
+                                settings.ControlStyle.CssClass = "form-control input-sm";
+                                settings.ControlStyle.ForeColor = System.Drawing.Color.Black;
+                                settings.Width = Unit.Percentage(100);
+                                //settings.Properties.MaxLength = 11;
+                                settings.Theme = "MetropolisBlue";
+                            }).GetHtml()
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label labels col-md-2 Required">Password:</label>
+                        <div class="col-md-4">
+                            <input type="password" readonly value="" id="Password" class="form-control input-sm" width='@Unit.Percentage(100)' />
+                        </div>
+
+                        <label class="control-label labels col-md-2">Show/Hide password:</label>
+                        <div class="col-md-4">
+                            <input type="checkbox" id="showPassword" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="promptUserBeforeSavingUser()"><i class="fa fa-thumbs-up"></i> Save</button>
+                <button type="button" onclick="promptUserBeforeClosingUserModal()" class="btn btn-default"><i class="fa fa-thumbs-down"></i> Cancel</button>
+            </div>
+        </div> <!-- / .modal-content -->
+    </div> <!-- / .modal-dialog -->
+</div>
+
+<div id="updateUser" class="modal fade" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal-dialog modal-super-scaled">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Update User</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="control-label labels col-md-2 Required">ID:</label>
+                        <div class="col-md-4">
+                            @Html.DevExpress().TextBox(settings =>
+                           {
+                               settings.Name = "E_ID";
+                               settings.ControlStyle.CssClass = "form-control input-sm";
+                               settings.ControlStyle.ForeColor = System.Drawing.Color.Black;
+                               settings.Width = Unit.Percentage(100);
+                               settings.Theme = "MetropolisBlue";
+                           }).GetHtml()
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label labels col-md-2 Required">Surname:</label>
+                        <div class="col-md-4">
+                            @Html.DevExpress().TextBox(settings =>
+                           {
+                               settings.Name = "E_SurName";
+                               settings.ControlStyle.CssClass = "form-control input-sm";
+                               settings.ControlStyle.ForeColor = System.Drawing.Color.Black;
+                               settings.Width = Unit.Percentage(100);
+                               settings.Theme = "MetropolisBlue";
+                           }).GetHtml()
+                        </div>
+                        <label class="control-label labels col-md-2 Required">Firstname:</label>
+                        <div class="col-md-4">
+                            @Html.DevExpress().TextBox(settings =>
+                           {
+                               settings.Name = "E_FirstName";
+                               settings.ControlStyle.CssClass = "form-control input-sm";
+                               settings.ControlStyle.ForeColor = System.Drawing.Color.Black;
+                               settings.Width = Unit.Percentage(100);
+                               settings.Theme = "MetropolisBlue";
+                           }).GetHtml()
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label labels col-md-2 Required">Username:</label>
+                        <div class="col-md-4">
+                            @Html.DevExpress().TextBox(settings =>
+                       {
+                           settings.Name = "E_UserName"; 
+                               settings.ControlStyle.CssClass = "form-control input-sm";
+                           settings.ControlStyle.ForeColor = System.Drawing.Color.Black;
+                           settings.Width = Unit.Percentage(100);
+                           settings.Theme = "MetropolisBlue";
+                       }).GetHtml()
+                        </div>
+                        <label class="control-label labels col-md-2 Required">Email:</label>
+                        <div class="col-md-4">
+                            @Html.DevExpress().TextBox(settings =>
+                            {
+                                settings.Name = "E_Email"; 
+                                settings.ControlStyle.CssClass = "form-control input-sm";
+                                settings.ControlStyle.ForeColor = System.Drawing.Color.Black;
+                                settings.Width = Unit.Percentage(100);
+                                //settings.Properties.MaxLength = 11;
+                                settings.Theme = "MetropolisBlue";
+                            }).GetHtml()
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label labels col-md-2 Required">Password:</label> 
+                        <div class="col-md-4">
+                            <input type="password" readonly value="" id="E_Password" class="form-control input-sm" width='@Unit.Percentage(100)' />
+                        </div>
+
+                        <label class="control-label labels col-md-2">Show/Hide password:</label>
+                        <div class="col-md-4">
+                            <input type="checkbox" id="E_showPassword" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="promptUserBeforeUpdatingUser()"><i class="fa fa-thumbs-up"></i> Update</button>
+                <button type="button" onclick="promptUserBeforeClosingUserUpdateModal()" class="btn btn-default"><i class="fa fa-thumbs-down"></i> Cancel</button>
+            </div>
+        </div> <!-- / .modal-content -->
+    </div> <!-- / .modal-dialog -->
+</div>

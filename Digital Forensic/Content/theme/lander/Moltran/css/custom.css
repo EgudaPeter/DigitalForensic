@@ -1,0 +1,58 @@
+﻿.topbar .topbar-left {
+
+    background: #eee !important;
+}
+
+    .topbar .topbar-left .logoimg {
+
+        width: 150px !important;
+        margin-top: 10px;
+    }
+
+    .navbar-default {
+    
+    background-color: #ffffff !important;
+    
+}
+
+    .navbar-nav i.md {
+        color: #333 !important;
+}
+
+    .content-page > .content {
+    margin-top: 40px;
+    /*margin-bottom: 60px;
+    padding: 20px 5px 15px 5px;
+    position: relative;*/
+}
+
+    .side-menu.left {
+    background: #263238 !important;
+   
+}
+
+    div#sidebar-menu {
+        background: #263238 !important;
+
+        
+    }
+
+   div#sidebar-menu ul>li>a {
+       color: #fefefe;
+        }
+
+   div#sidebar-menu ul>li>a.dash {
+       color: #333 !important;
+   }
+
+   #sidebar-menu > ul > li > a.active, #sidebar-menu > ul > li > a.active.subdrop {
+    background: #999 !important;
+}
+
+   #sidebar-menu ul li a:hover {
+       background: #999 !important;
+   }
+
+   .subdrop {
+    background: #999 !important;
+}

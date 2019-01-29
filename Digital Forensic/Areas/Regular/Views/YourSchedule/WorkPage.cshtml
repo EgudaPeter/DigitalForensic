@@ -1,0 +1,482 @@
+﻿
+@{
+    ViewBag.Title = "WorkPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    hr {
+        margin-top: 0px;
+        margin-bottom: 3px;
+    }
+</style>
+
+<script>
+    var nextActor = null;
+
+    $(document).ready(function () {
+        GetPublicKey();
+        MarkPresentUser();
+        $("#file").change(function () {
+            return CheckIfUserHasChoosenAFile();
+        });
+    });
+
+    function MarkPresentUser() {
+        var user = '@User.Identity.Name';
+        var indicesToSelect = new Array();
+        for (var i = 0; i < actors.GetItemCount() ; i++) {
+            switch (actors.GetItem(i).text) {
+                case user:
+                    indicesToSelect.push(i);
+                    var last = actors.GetItemCount() - 1;
+                    if (i == last) {
+                        $("#pushDE").attr("disabled", false);
+                        $("#pushDCoC").attr("disabled", false);
+                        $("#next").hide();
+                    }
+                    break;
+            }
+        }
+        actors.SelectIndices(indicesToSelect);
+    } //MarkPresentUser
+
+    function CheckIfUserHasChoosenAFile() {
+        if (document.getElementById("file").files.length == 0) {
+            $("#Submit").attr("disabled", true);
+        }
+        else {
+            $("#Submit").attr("disabled", false);
+        }
+    }
+
+    function GetPublicKey() {
+        $.ajax({
+            url: '@Url.Action("GetPublicKey", "YourSchedule", new { Area = "Regular" })',
+            type: 'Post',
+            data: {},
+            success: function (data) {
+                if (data.success == true) {
+                    $("#publicKey").val(data.publicKey);
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //GetPublicKey
+
+    function CheckIfDownloadIsPossible() {
+        SiteUtils.loading("Please wait...");
+        $.ajax({
+            url: '@Url.Action("CheckIfDownloadIsPossible", "YourSchedule", new { Area = "Regular" })',
+            type: 'Post',
+            data: { key: $("#publicKey").val() },
+            success: function (data) {
+                SiteUtils.loadingOff();
+                if (data.success == true) {
+                    return Download();
+                }
+                if (data.success == false) {
+                    swal({
+                        title: 'Warning!',
+                        html: data.infoMessage,
+                        type: 'warning',
+                        allowOutsideClick: false
+                    }).then(function () {
+                        $("#download").attr("disabled", true);
+                        $("#Submit").attr("disabled", true);
+                        $("#pushDE").attr("disabled", true);
+                        $("#pushDCoC").attr("disabled", true);
+                        $("#returnFile").attr("disabled", false);
+                        $("#cancel").attr("disabled", true);
+                    });
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //CheckIfDownloadIsPossible
+
+    function ReturnFile() {
+        SiteUtils.loading("Please wait...");
+        var previousActor = null;
+        var presentActor = null;
+        var user = '@User.Identity.Name';
+        for (var i = 0; i < actors.GetItemCount() ; i++) {
+            switch (actors.GetItem(i).text) {
+                case user:
+                    presentActor = user;
+                    if (i == 0) {
+                        previousActor = "admin";
+                    }
+                    else {
+                        previousActor = actors.GetItem(i - 1).text;
+                    }
+                    break;
+            }
+        }
+        $.ajax({
+            url: '@Url.Action("ReturnFile", "YourSchedule", new { Area = "Regular" })',
+            type: 'Post',
+            data: {previousActor:previousActor, presentActor:presentActor},
+            success: function (data) {
+                SiteUtils.loadingOff();
+                if (data.success == true) {
+                    swal({
+                        title: 'Success!',
+                        html: data.infoMessage,
+                        type: 'success',
+                        allowOutsideClick: false
+                    }).then(function () {
+                        var backURL = '@Url.Action("GetSchedule","YourSchedule",new { Area = "Regular" })';
+                        window.location.href = backURL;
+                    });
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //ReturnFile
+
+    function Download() {
+        SiteUtils.loading("Downloading...");
+        $.ajax({
+            url: '@Url.Action("DownloadFiles", "YourSchedule", new { Area = "Regular" })',
+            type: 'Post',
+            data: { key: $("#publicKey").val() },
+            success: function (data) {
+                SiteUtils.loadingOff();
+                if (data.success == true) {
+                    swal({
+                        title: 'Success!',
+                        html: data.infoMessage,
+                        type: 'success',
+                        allowOutsideClick: false
+                    }).then(function () {
+                        $("#returnFile").attr("disabled", true);
+                    });;
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //DownloadFiles
+
+    function GetDEToPushViaTabControlButton() {
+        if (EncryptedFile.GetValue() == null) {
+            swal({
+                title: 'Warning!',
+                html: "Please encrypt DE before you can push DE!",
+                type: 'warning',
+                allowOutsideClick: false
+            });
+            return;
+        }
+        return PushDE();
+    }
+    function GetDCoCToPushViaTabControlButton() {
+        if (EncryptedFile.GetValue() == null) {
+            swal({
+                title: 'Warning!',
+                html: "Please encrypt DCoC before you can push DCoC!",
+                type: 'warning',
+                allowOutsideClick: false
+            });
+            return;
+        }
+        return PushDCoC();
+    }
+
+    function NextActor() {
+        var indicesToSelect = new Array();
+        var indicesToUnselect = new Array();
+        var user = '@User.Identity.Name';
+        for (var i = 0; i < actors.GetItemCount() ; i++) {
+            switch (actors.GetItem(i).text) {
+                case user:
+                    indicesToUnselect.push(i);
+                    indicesToSelect.push(i + 1);
+                    nextActor = actors.GetItem(i + 1).text;
+                    break;
+            }
+        }
+        actors.SelectIndices(indicesToSelect);
+        actors.UnselectIndices(indicesToUnselect);
+        $("#pushDE").attr("disabled", false);
+        $("#pushDCoC").attr("disabled", false);
+    } //Next actor
+    function PreviousActor() {
+        var indicesToSelect = new Array();
+        var user = '@User.Identity.Name';
+        for (var i = 0; i < actors.GetItemCount() ; i++) {
+            switch (actors.GetItem(i).text) {
+                case user:
+                    indicesToSelect.push(i - 1);
+                    break;
+            }
+        }
+        actors.SelectIndices(indicesToSelect);
+        $("#pushDE").attr("disabled", false);
+        $("#pushDCoC").attr("disabled", false);
+    } //Previous actor
+
+    function PushDE() {
+        SiteUtils.loading("Pushing...");
+        $.ajax({
+            url: '@Url.Action("PushDE", "YourSchedule", new { Area = "Regular" })',
+            type: 'Post',
+            data: { publicKey: $("#publicKey").val() },
+            success: function (data) {
+                SiteUtils.loadingOff();
+                if (data.success == true) {
+                    swal({
+                        title: 'Success!',
+                        html: data.infoMessage,
+                        type: 'success',
+                        allowOutsideClick: false
+                    }).then(function () {
+                        EncryptedPath.SetValue(null);
+                        EncryptedFile.SetValue(null);
+                    });
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //Push DE
+
+    function PushDCoC() {
+        SiteUtils.loading("Pushing...");
+        $.ajax({
+            url: '@Url.Action("PushDCoC", "YourSchedule", new { Area = "Regular" })',
+            type: 'Post',
+            data: { publicKey: $("#publicKey").val() },
+            success: function (data) {
+                SiteUtils.loadingOff();
+                if (data.success == true) {
+                    swal({
+                        title: 'Success!',
+                        html: data.infoMessage,
+                        type: 'success',
+                        allowOutsideClick: false
+                    }).then(function () {
+                        EncryptedPath.SetValue(null);
+                        EncryptedFile.SetValue(null);
+                        NotifyNextActor();
+                    });
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //Push DCoC
+
+    function NotifyNextActor() {
+        SiteUtils.loading("Please wait...");
+        $.ajax({
+            url: '@Url.Action("NotifyNextActor", "YourSchedule", new { Area = "Regular" })',
+            type: 'Post',
+            data: { nextActor: nextActor },
+            success: function (data) {
+                SiteUtils.loadingOff();
+                if (data.success == true) {
+                    swal({
+                        title: 'Success!',
+                        html: data.infoMessage,
+                        type: 'success',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+                if (data.success == -1) {
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //NotifyNextActor
+
+    function promptUserBeforeGoingBack() {
+        swal({
+            title: 'Are you sure?',
+            html: 'Inputs will be lost',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-info',
+            cancelButtonClass: 'btn btn-primary',
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Okay',
+            cancelButtonText: '<i class="fa fa-thumbs-down"></i> Cancel',
+            allowOutsideClick: false
+        }).then(function () {
+            var backURL = '@Url.Action("GetSchedule","YourSchedule",new { Area = "Regular" })';
+            window.location.href = backURL;
+        });
+    } //promptUserBeforeGoingBack
+
+</script>
+
+@using (Html.BeginForm("Upload", "YourSchedule", FormMethod.Post, new { Area = "Regular", enctype = "multipart/form-data" }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading nopadding">
+            <div class="row nomargin">
+                <div class="col-md-12 padding5">
+                    <div class="col-md-2">
+                        <div class="btn-group">
+                            <h4 class="titleStyle">ENCRYPTION</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-10 action-wrap">
+                        <div class="form-inline">
+                            <div class="pull-right btnMenus" id="btnMenus">
+                                <div class="btn-group">
+                                    <button type="button" id="download" class="btn" onclick="CheckIfDownloadIsPossible()">Download</button>
+                                    <input type="submit" disabled class="btn" name="Submit" id="Submit" value="Encrypt" />
+                                    <button type="button" id="pushDE" class="btn" disabled onclick="GetDEToPushViaTabControlButton()">Push DE</button>
+                                    <button type="button" id="pushDCoC" class="btn" disabled onclick="GetDCoCToPushViaTabControlButton()">Push DCoC</button>
+                                    <button type="button" class="btn" id="returnFile" disabled onclick="ReturnFile()">Return File</button>
+                                    <button type="button" id="cancel" class="btn" onclick="promptUserBeforeGoingBack()">Cancel</button>
+                                </div>
+                            </div>
+                        </div><!--/form-inline-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body" style="min-height:50px !important; background-color:#ffffff !important;">
+            <div class="row">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Selected Actors: </label>
+                        <div class="col-md-4">
+                            @Html.Action("CheckBoxListPartial")
+                        </div>
+                        <div class="col-md-4">
+                            @*<button type="button" id="previous" class="btn" onclick="PreviousActor()">Previous</button>*@
+                            <button type="button" id="next" class="btn" onclick="NextActor()">Next</button>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Public Key: </label>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input id="publicKey" readonly type="text" name="publicKey" class="form-control input-sm" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <input id="file" class="form-control btn" name="file" style="margin-left:80px;" type="file" accept=".jpg, .jpeg, .png, .mp4, .mp3, .txt,.pdf" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Encrypted Path: </label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                @Html.DevExpress().Memo(settings =>
+                           {
+                               settings.Name = "EncryptedPath";
+                               settings.Properties.Rows = 4;
+                               settings.Width = 500;
+                               settings.ReadOnly = true;
+                           }).Bind(ViewBag.EncrptedPath).GetHtml()
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2"> Encrypted File: </label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                @Html.DevExpress().Memo(settings =>
+                        {
+                            settings.Name = "EncryptedFile";
+                            settings.Properties.Rows = 10;
+                            settings.Width = 500;
+                            settings.ReadOnly = true;
+                        }).Bind(ViewBag.EncryptedContents).GetHtml()
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                            <label class="control-label col-md-2"> Encrypted DCoC file: </label>
+                            <div class="col-md-8">
+                                @Html.DevExpress().Memo(settings =>
+                            {
+                                settings.Name = "DecryptedDCoCFile";
+                                settings.Properties.Rows = 10;
+                                settings.Width = 500;
+                                settings.ReadOnly = true;
+                            }).GetHtml()
+                            </div>
+                        </div>*@
+
+                </div>
+            </div>
+        </div>
+    </div><!--Panel -->
+}
+
+
+
+

@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "Schedule";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    var selectedIDs;
+    var publicKey = null;
+
+    function CheckIfActorsAreSelected() {
+        if (selectedIDs == null || selectedIDs == "") {
+            swal({
+                title: 'Warning',
+                html: "Please select one or more actor(s) to begin task!",
+                type: 'warning',
+                allowOutsideClick: false
+            });
+            return;
+        }
+        return GeneratePublicKey();
+    }
+
+    function GeneratePublicKey() {
+        $.ajax({
+            url: '@Url.Action("GeneratePublicKey", "WorkSchedule", new { Area = "Admin" })',
+            type: 'Post',
+            data: {},
+            success: function (data) {
+                if (data.success == true) {
+                    publicKey = data.publicKey;
+                    return BeginTask();
+                }
+                if (data.success == -1) {
+                    WorkScheduleGridView.UnselectRows();
+                    swal({
+                        title: 'Error!',
+                        html: data.errorMessage,
+                        type: 'error',
+                        allowOutsideClick: false
+                    });
+                    return;
+                }
+            }
+        });
+    } //Generate Public Key
+
+    function BeginTask() {
+        var dataArray = {
+            PublicKey:publicKey,
+            NoOfActors: WorkScheduleGridView.GetSelectedRowCount()
+        };
+        swal({
+            title: 'Warning',
+            html: "You are about to begin schedule with a public key of <b>" + publicKey + "</b> and a total number of " + WorkScheduleGridView.GetSelectedRowCount() + " actor(s)." +
+            "Would you like to Proceed?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-info',
+            cancelButtonClass: 'btn btn-primary',
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> Proceed',
+            cancelButtonText: '<i class="fa fa-thumbs-down"></i> Cancel',
+            allowOutsideClick: false
+        }).then(function () {
+            SiteUtils.loading("Scheduling...");
+            $.ajax({
+                url: '@Url.Action("BeginTask", "WorkSchedule", new { Area = "Admin" })',
+                type: 'Post',
+                data: { Data:dataArray, selectedKeys: selectedIDs },
+                success: function (data) {
+                    SiteUtils.loadingOff();
+                    var successURL = '@Url.Action("EncryptPage","WorkSchedule",new { Area = "Admin" })';
+                    if (data.success == true) {
+                        swal({
+                            title: 'Success!',
+                            html: data.infoMessage,
+                            type: 'success',
+                            allowOutsideClick: false
+                        }).then(function () {
+                            window.location.href = successURL;
+                        });
+                        return;
+                    }
+                    if (data.success == -1) {
+                        WorkScheduleGridView.UnselectRows();
+                        swal({
+                            title: 'Error!',
+                            html: data.errorMessage,
+                            type: 'error',
+                            allowOutsideClick: false
+                        });
+                        return;
+                    }
+                }
+            });
+        });
+    } //Begin Task
+
+    function OnSelectionChanged(s, e) {
+        s.GetSelectedFieldValues("UID", GetSelectedFieldValuesCallback);
+    }
+
+    function GetSelectedFieldValuesCallback(values) {
+        if (values.length == 0) {
+            //
+        }
+        selectedIDs = values.join(',');
+    }
+
+</script>
+
+<div class="panel panel-default">
+    <div class="panel-heading nopadding">
+        <div class="row nomargin">
+            <div class="col-md-12 padding5">
+                <div class="col-md-2">
+                    <div class="btn-group">
+                        <h4 class="titleStyle">WORK SCHEDULE</h4>
+                    </div>
+                </div>
+                <div class="col-md-10 action-wrap">
+                    <div class="form-inline">
+                        <div class="pull-right btnMenus" id="btnMenus">
+                            <div class="btn-group">
+                                <button type="button" class="btn" onclick="CheckIfActorsAreSelected()"> Begin Schedule</button>
+                                @*<button type="button" class="btn" onclick=""> Change</button>
+                                <button type="button" class="btn" onclick="" id="deleteCode"> Delete</button>*@
+                            </div>
+                        </div>
+                    </div><!--/form-inline-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body" style="background-color:#ffffff !important;">
+        <div class="col-md-12">
+            <div class="" style="overflow-x:auto">
+                <div class="table-responsive">
+                    @Html.Action("WorkScheduleGridViewPartial")
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--Panel -->
+

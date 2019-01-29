@@ -1,0 +1,252 @@
+﻿
+@using System.Web.Optimization;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Forensics | @ViewBag.Title</title>
+    <link rel="shortcut icon" href="~/Icons/eTMS.ico" type="image/x-icon" />
+    @*@Styles.Render("~/Content/css")*@
+    @*@Scripts.Render("~/bundles/modernizr")*@
+
+    <link href="@Url.Content("~/Content/theme/lander/assets/stylesheets/bootstrap.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/theme/lander/assets/stylesheets/landerapp.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/lib/jquery-ui/jquery-ui.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/css/quirk.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/css/custom.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/lib/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/css/overrides.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/loader/css/loader.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/eTMS.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/lib/modernizr/modernizr.js")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/assets/css/sweetalert2.min.css")" rel="stylesheet" />
+
+    <link href="@Url.Content("~/Content/loader/css/loader.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Content/theme/lander/assets/javascripts/jquery.min.js")"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="@Url.Content("~/Content/lib/html5shiv/html5shiv.js")"></script>
+    <script src="@Url.Content("~/Content/lib/respond/respond.src.js")"></script>
+    <![endif]-->
+
+    @Html.DevExpress().GetStyleSheets(
+        new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout, Theme = "MetropolisBlue" },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Editors, Theme = "MetropolisBlue" },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.GridView, Theme = "MetropolisBlue" }
+    )
+    @Html.DevExpress().GetScripts(
+        new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new Script { ExtensionSuite = ExtensionSuite.Editors },
+        new Script { ExtensionSuite = ExtensionSuite.GridView }
+    )
+
+</head>
+<body>
+    <style>
+    </style>
+
+    <div class="hidden">
+        <header>
+            <div class="headerpanel">
+                <div class="logopanel">
+                    <h2><a href='@Url.Action("Home","Home",new { Area = "Home" })'>Digital Forensics</a></h2>
+                </div><!-- logopanel -->
+                <div class="headerbar">
+                    <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+
+                    <div class="header-right">
+                        <ul class="headermenu">
+                            <li>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-logged" data-toggle="dropdown">
+                                        @*<img src="/Content/images/photos/loggeduser.png" alt="" />*@
+                                        <b style="color:#ffffff; font-size:small">@User.Identity.Name</b>
+                                        <span style="color:#ffffff" class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right">
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            if (User.IsInRole("AD"))
+                                            {
+                                                <li><a href="@Url.Action("ChangePassword","ManagePassword",new { Area ="Admin" })"><i class="glyphicon glyphicon-cog"></i> Change Password</a></li>
+                                                <li><a href="@Url.Action("LogOut","Authenticate",new { Area ="" })"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="@Url.Action("LogOut","Authenticate",new { Area ="" })"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div><!-- header-right -->
+                </div><!-- headerbar -->
+            </div><!-- header-->
+        </header>
+
+        <section>
+            @*<div id="loading">
+                    <div id="loadingcontent">
+                        <p id="loadingspinner">
+                            Please wait...
+                        </p>
+                    </div>
+                </div>*@
+            <div class="leftpanel">
+                <div class="leftpanelinner">
+                    <!-- ################## LEFT PANEL PROFILE ################## -->
+                    @*<ul class="nav nav-tabs nav-justified nav-sidebar">
+                            <li class="tooltips active" data-toggle="tooltip" title="Main Menu"><a data-toggle="tab" data-target="#mainmenu"><i class="tooltips fa fa-ellipsis-h"></i></a></li>
+                                <li class="tooltips" data-toggle="tooltip" title="Check Mail"><a data-toggle="tab" data-target="#emailmenu"><i class="tooltips fa fa-calculator"></i></a></li>
+                                <li class="tooltips" data-toggle="tooltip" title="Settings"><a data-toggle="tab" data-target="#settings"><i class="fa fa-comments"></i></a></li>
+                                <li class="tooltips" data-toggle="tooltip" title="Log Out"><a href="~/"><i class="fa fa-sign-out"></i></a></li>
+                        </ul>*@
+                    <div class="tab-content">
+                        <!-- ################# MAIN MENU ################### -->
+                        <div class="tab-pane active" id="mainmenu">
+                            <ul id="mainSideMenu" class="nav nav-pills nav-stacked nav-quirk">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    if (User.IsInRole("AD"))
+                                    {
+                                        <li>
+                                            <a id="Dashboard" href='@Url.Action("Admin","Admin",new { Area = "Admin" })'><i class="menu-icon fa fa-dashboard"></i><span class="mm-text">Dashboard</span></a>
+                                        </li>
+
+                                        <li>
+                                            <a href="@Url.Action("CreateUsers","Admin",new { Area = "Admin" })"><i class="menu-icon fa fa-users"></i><span class="mm-text">Create Users</span></a>
+                                        </li>
+
+                                        <li>
+                                            <a href="@Url.Action("Schedule","WorkSchedule",new { Area = "Admin" })"><i class="menu-icon fa fa-key"></i><span class="mm-text">Work Schedule</span></a>
+                                        </li>
+                                    }
+                                }
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    if (User.IsInRole("RE"))
+                                    {
+                                        <li>
+                                            <a id="Dashboard" href='@Url.Action("RegularView","Regular",new { Area = "Regular" })'><i class="menu-icon fa fa-dashboard"></i><span class="mm-text">Dashboard</span></a>
+                                        </li>
+
+                                        <li>
+                                            <a href="@Url.Action("GetSchedule","YourSchedule",new { Area = "Regular" })"><i class="menu-icon fa fa-key"></i><span class="mm-text">Your Schedule</span></a>
+                                        </li>
+                                    }
+                                }
+                                @*<li class="nav-parent">
+                                        <a href=""><i class="fa fa-frown-o"></i>Debts & Debtors</a>
+                                        <ul class="children">
+                                            <li>
+                                                <a tabindex="-1" href='@Url.Action("Debts","Debts",new { Area = "Admin" })'><span class="mm-text">Debts</span></a>
+                                            </li>
+                                            <li>
+                                                <a tabindex="-1" href='@Url.Action("Debtors","Debtors",new { Area = "Admin" })'><span class="mm-text">Debtors</span></a>
+                                            </li>
+                                        </ul>
+                                    </li>*@
+                            </ul>
+                        </div><!-- tab-pane -->
+                    </div><!-- tab-content -->
+                </div><!-- leftpanelinner -->
+            </div><!-- leftpanel -->
+
+            <div class="mainpanel">
+                <!-- Main Panel -->
+                <div class="contentpanel">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div><!-- contentpanel -->
+            </div><!-- mainpanel -->
+        </section>
+    </div>
+
+
+
+
+    @*<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></script>*@
+    @*<script type="text/javascript"
+        src="@Url.Content("~/Scripts/spin.min.js")"></script>*@
+
+
+    @*<script src="@Url.Content("~/Content/lib/jquery/jquery.js")"></script>*@
+    <script src="@Url.Content("~/Content/js/quirk.js")"></script>
+    <script src="@Url.Content("~/Content/theme/assets/js/jquery-1.10.2.min.js")"></script>
+    <script src="@Url.Content("~/Content/theme/lander/assets/javascripts/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Content/theme/lander/assets/javascripts/mark.loader.js")"></script>
+    <script src="@Url.Content("~/Content/theme/lander/assets/javascripts/landerapp.min.js")"></script>
+    <script src="@Url.Content("~/Content/loader/js/AppUtils.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/sweetalert2.min.js")"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('.panel-body').css('min-height', ($("#mainmenu").height() + 100) + 'px');
+        });
+        $(function () {
+            var url = location.pathname;
+            var $activeChildMenu = $("#mainSideMenu ul.children li a[href='" + url + "']");
+            if ($activeChildMenu.length == 0) {
+                if (url.indexOf("EncryptPage") != -1) {
+                    var URL = "/Admin/WorkSchedule/Schedule";
+                    var $address = $("#mainSideMenu a[href='" + URL + "']");
+                    var $ownerOfAddress = $address.parents('li')
+                    $ownerOfAddress.addClass('active');
+                }
+                else if (url.indexOf("WorkPage") != -1) {
+                    var URL = "/Regular/YourSchedule/GetSchedule";
+                    var $address = $("#mainSideMenu a[href='" + URL + "']");
+                    var $ownerOfAddress = $address.parents('li')
+                    $ownerOfAddress.addClass('active');
+                }
+                else {
+                    var $address = $("#mainSideMenu a[href='" + url + "']");
+                    var $ownerOfAddress = $address.parents('li')
+                    $ownerOfAddress.addClass('active');
+                }          
+            }
+            $activeChildMenu.addClass("isActive");
+            var $navParent = $activeChildMenu.parents("li.nav-parent");
+            $navParent.addClass('open active');
+            $navParent.children('ul').slideDown();
+
+            $("#mainSideMenu li.nav-parent>a").click(function () {
+                $(this).removeAttr('href');
+                var element = $(this).parent('li');
+                if (element.hasClass('open')) {
+                    element.removeClass('open');
+                    element.find('li').removeClass('open');
+                    element.find('ul').slideUp();
+                }
+                else {
+                    element.addClass('open');
+                    element.children('ul').slideDown();
+                    element.siblings('li').children('ul').slideUp();
+                    element.siblings('li').removeClass('open');
+                    element.siblings('li').find('li').removeClass('open');
+                    element.siblings('li').find('ul').slideUp();
+                }
+            });
+
+        });
+        $('div.hidden').fadeIn(1500).removeClass('hidden');
+    </script>
+
+
+
+    @*@Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap"*@)
+    @RenderSection("scripts", required: false)
+</body>
+</html>

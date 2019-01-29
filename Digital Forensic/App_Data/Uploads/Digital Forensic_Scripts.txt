@@ -1,0 +1,265 @@
+USE [master]
+GO
+/****** Object:  Database [DigitalForensic]    Script Date: 12/28/2017 7:44:00 AM ******/
+CREATE DATABASE [DigitalForensic]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'DigitalForensic', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA\DigitalForensic.mdf' , SIZE = 4096KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'DigitalForensic_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA\DigitalForensic_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [DigitalForensic].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [DigitalForensic] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET AUTO_CREATE_STATISTICS ON 
+GO
+ALTER DATABASE [DigitalForensic] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [DigitalForensic] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [DigitalForensic] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [DigitalForensic] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [DigitalForensic] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET RECOVERY FULL 
+GO
+ALTER DATABASE [DigitalForensic] SET  MULTI_USER 
+GO
+ALTER DATABASE [DigitalForensic] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [DigitalForensic] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [DigitalForensic] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [DigitalForensic] SET TARGET_RECOVERY_TIME = 0 SECONDS 
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'DigitalForensic', N'ON'
+GO
+USE [DigitalForensic]
+GO
+/****** Object:  Table [dbo].[Actors]    Script Date: 12/28/2017 7:44:00 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Actors](
+	[AID] [int] IDENTITY(1,1) NOT NULL,
+	[WID] [int] NOT NULL,
+	[Username] [varchar](100) NOT NULL,
+	[CreatedDate] [datetime] NULL,
+ CONSTRAINT [PK_Actors] PRIMARY KEY CLUSTERED 
+(
+	[AID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Admin]    Script Date: 12/28/2017 7:44:00 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Admin](
+	[AdminID] [int] IDENTITY(1,1) NOT NULL,
+	[AdminSurname] [varchar](50) NOT NULL,
+	[AdminFirstname] [varchar](50) NOT NULL,
+	[AdminMiddlename] [varchar](50) NULL,
+	[AdminUsername] [varchar](50) NOT NULL,
+	[AdminPassword] [varchar](1000) NOT NULL,
+	[AdminPhone] [varchar](50) NOT NULL,
+	[CreatedDate] [datetime] NULL,
+	[Role] [varchar](5) NOT NULL,
+ CONSTRAINT [PK_Admin] PRIMARY KEY CLUSTERED 
+(
+	[AdminID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[AdminLogin]    Script Date: 12/28/2017 7:44:00 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[AdminLogin](
+	[loginID] [int] IDENTITY(1,1) NOT NULL,
+	[adminUsername] [varchar](50) NOT NULL,
+	[adminPassword] [varchar](1000) NOT NULL,
+	[adminLoginDate] [datetime] NOT NULL,
+ CONSTRAINT [PK_AdminLogin] PRIMARY KEY CLUSTERED 
+(
+	[loginID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[GsmValidator]    Script Date: 12/28/2017 7:44:00 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[GsmValidator](
+	[ID_GsmFormat] [int] IDENTITY(1,1) NOT NULL,
+	[ProviderCode] [varchar](20) NULL,
+	[Gsm1st3Digits] [varchar](3) NULL,
+	[GsmNoLenght] [int] NULL,
+ CONSTRAINT [PK_GsmValidator] PRIMARY KEY CLUSTERED 
+(
+	[ID_GsmFormat] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 12/28/2017 7:44:00 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Users](
+	[UID] [int] IDENTITY(1,1) NOT NULL,
+	[Surname] [varchar](50) NOT NULL,
+	[Firstname] [varchar](50) NOT NULL,
+	[Username] [varchar](50) NOT NULL,
+	[Password] [varchar](1000) NOT NULL,
+	[CapturedBy] [varchar](50) NOT NULL,
+	[CreatedDate] [datetime] NULL,
+	[isActivated] [bit] NULL,
+	[HasChangedPassword] [bit] NULL,
+	[UserRole] [varchar](10) NULL,
+	[Email] [varchar](200) NULL,
+	[ActivationCode] [uniqueidentifier] NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[UID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[WorkSchedule]    Script Date: 12/28/2017 7:44:00 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[WorkSchedule](
+	[WID] [int] IDENTITY(1,1) NOT NULL,
+	[PublicKey] [varchar](1000) NOT NULL,
+	[NoOfActors] [int] NOT NULL,
+	[GeneratedBy] [varchar](100) NOT NULL,
+	[CreatedDate] [datetime] NULL,
+ CONSTRAINT [PK_WorkSchedule] PRIMARY KEY CLUSTERED 
+(
+	[WID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+SET IDENTITY_INSERT [dbo].[Admin] ON 
+
+GO
+INSERT [dbo].[Admin] ([AdminID], [AdminSurname], [AdminFirstname], [AdminMiddlename], [AdminUsername], [AdminPassword], [AdminPhone], [CreatedDate], [Role]) VALUES (1, N'Eguda', N'Peter', N'', N'PIE', N'A6F56CA7001FAABB04EC6A60382AA81DDC08ED7722DFDE814E07D484096D433798DFD2F08A2443395C9A437D73F144B778C5249C6BE54C344ED61916F78E3BDF', N'', CAST(0x0000A84800A1EC8B AS DateTime), N'SU')
+GO
+SET IDENTITY_INSERT [dbo].[Admin] OFF
+GO
+SET IDENTITY_INSERT [dbo].[AdminLogin] ON 
+
+GO
+INSERT [dbo].[AdminLogin] ([loginID], [adminUsername], [adminPassword], [adminLoginDate]) VALUES (1, N'PIE', N'A6F56CA7001FAABB04EC6A60382AA81DDC08ED7722DFDE814E07D484096D433798DFD2F08A2443395C9A437D73F144B778C5249C6BE54C344ED61916F78E3BDF', CAST(0x0000A84800B60F31 AS DateTime))
+GO
+INSERT [dbo].[AdminLogin] ([loginID], [adminUsername], [adminPassword], [adminLoginDate]) VALUES (2, N'PIE', N'A6F56CA7001FAABB04EC6A60382AA81DDC08ED7722DFDE814E07D484096D433798DFD2F08A2443395C9A437D73F144B778C5249C6BE54C344ED61916F78E3BDF', CAST(0x0000A84800BA260F AS DateTime))
+GO
+INSERT [dbo].[AdminLogin] ([loginID], [adminUsername], [adminPassword], [adminLoginDate]) VALUES (3, N'PIE', N'A6F56CA7001FAABB04EC6A60382AA81DDC08ED7722DFDE814E07D484096D433798DFD2F08A2443395C9A437D73F144B778C5249C6BE54C344ED61916F78E3BDF', CAST(0x0000A84800BB35D5 AS DateTime))
+GO
+INSERT [dbo].[AdminLogin] ([loginID], [adminUsername], [adminPassword], [adminLoginDate]) VALUES (4, N'PIE', N'A6F56CA7001FAABB04EC6A60382AA81DDC08ED7722DFDE814E07D484096D433798DFD2F08A2443395C9A437D73F144B778C5249C6BE54C344ED61916F78E3BDF', CAST(0x0000A84800BBE032 AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[AdminLogin] OFF
+GO
+SET IDENTITY_INSERT [dbo].[GsmValidator] ON 
+
+GO
+INSERT [dbo].[GsmValidator] ([ID_GsmFormat], [ProviderCode], [Gsm1st3Digits], [GsmNoLenght]) VALUES (1, N'AIRTEL', N'080', 11)
+GO
+INSERT [dbo].[GsmValidator] ([ID_GsmFormat], [ProviderCode], [Gsm1st3Digits], [GsmNoLenght]) VALUES (2, N'MTN', N'070', 11)
+GO
+INSERT [dbo].[GsmValidator] ([ID_GsmFormat], [ProviderCode], [Gsm1st3Digits], [GsmNoLenght]) VALUES (3, N'AIRTEL', N'081', 11)
+GO
+INSERT [dbo].[GsmValidator] ([ID_GsmFormat], [ProviderCode], [Gsm1st3Digits], [GsmNoLenght]) VALUES (4, N'AIRTEL', N'090', 11)
+GO
+SET IDENTITY_INSERT [dbo].[GsmValidator] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Users] ON 
+
+GO
+INSERT [dbo].[Users] ([UID], [Surname], [Firstname], [Username], [Password], [CapturedBy], [CreatedDate], [isActivated], [HasChangedPassword], [UserRole], [Email], [ActivationCode]) VALUES (1, N'Eguda', N'Peter', N'PIE', N'A6F56CA7001FAABB04EC6A60382AA81DDC08ED7722DFDE814E07D484096D433798DFD2F08A2443395C9A437D73F144B778C5249C6BE54C344ED61916F78E3BDF', N'', CAST(0x0000A84800A1EC8B AS DateTime), NULL, NULL, N'AD', NULL, NULL)
+GO
+INSERT [dbo].[Users] ([UID], [Surname], [Firstname], [Username], [Password], [CapturedBy], [CreatedDate], [isActivated], [HasChangedPassword], [UserRole], [Email], [ActivationCode]) VALUES (5, N'Eguda', N'Laura', N'Eguda_Laura', N'4117657A53B54D4FDAC49E3A565088589AA7400BEC95B0B1A217E2EB9C56610589C843BAF4896DC4BC95EFC74C9CA0EB81758944852BEF3F59DE921B2F61925C', N'', CAST(0x0000A855008D5E64 AS DateTime), 0, 0, N'RE', N'egudapeter315@gmail.com', N'9fae1e58-5164-4196-8ad2-a062dad05f5f')
+GO
+INSERT [dbo].[Users] ([UID], [Surname], [Firstname], [Username], [Password], [CapturedBy], [CreatedDate], [isActivated], [HasChangedPassword], [UserRole], [Email], [ActivationCode]) VALUES (6, N'Adetola', N'Kunle', N'Geeko', N'90D67F7A6471B8214221362307E963A2E6BDEDB47C9AA7FDD380ACF706490233E0080C5BF3802DAEFD4ACEC8B3BC98016E5CED2FDBA6ED8B91E88D75D1FA3552', N'', CAST(0x0000A85500D8C67D AS DateTime), 0, 0, N'RE', N'rukayatk@yahoo.co.uk', N'7e59c3fe-851f-4ea3-9eb5-9c060dc09152')
+GO
+SET IDENTITY_INSERT [dbo].[Users] OFF
+GO
+USE [master]
+GO
+ALTER DATABASE [DigitalForensic] SET  READ_WRITE 
+GO

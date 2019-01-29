@@ -1,0 +1,50 @@
+﻿
+label.action-label{
+    display:inline-block !important;
+    font-size:16px;
+    margin-right:10px;
+}
+
+.text-white{
+    color:#fff;
+}
+
+.spacer-20{
+    display:inline;
+    width:20px !important;
+}
+
+.nopadding {
+    padding: 0 !important;
+}
+
+.nomargin {
+    margin: 0 !important;
+}
+
+.panel-title {
+    font-size: 14px !important;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+    line-height: 40px;
+    margin-left: 10px;
+}
+
+.modal-full {
+    margin-left: 8px;
+    width: 100% !important;
+}
+
+@media (min-width: 992px) {
+    .modal-md {
+        width: 750px;
+    }
+}
+
+
+@media (min-width: 992px) {
+    .modal-xlg {
+        width: 950px;
+    }
+}

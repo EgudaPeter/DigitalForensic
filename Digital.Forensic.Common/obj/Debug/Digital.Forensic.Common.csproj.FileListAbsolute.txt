@@ -1,0 +1,5 @@
+C:\Digital Forensic\Digital.Forensic.Common\bin\Debug\Digital.Forensic.Common.dll
+C:\Digital Forensic\Digital.Forensic.Common\bin\Debug\Digital.Forensic.Common.pdb
+C:\Digital Forensic\Digital.Forensic.Common\obj\Debug\Digital.Forensic.Common.csprojResolveAssemblyReference.cache
+C:\Digital Forensic\Digital.Forensic.Common\obj\Debug\Digital.Forensic.Common.dll
+C:\Digital Forensic\Digital.Forensic.Common\obj\Debug\Digital.Forensic.Common.pdb

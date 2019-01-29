@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digital Forensic", "Digital Forensic\Digital Forensic.csproj", "{35DF39D6-C9F8-4103-851A-48096955B104}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digital.Forensic.BusinessObjectLayer", "Digital.Forensic.BusinessObjectLayer\Digital.Forensic.BusinessObjectLayer.csproj", "{F9EED3FA-6C57-4CDD-83A4-AEC5BB7ACF29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digital.Forensic.Repository", "Digital.Forensic.Repository\Digital.Forensic.Repository.csproj", "{B37B5B84-31D4-409F-A7A4-3EC2FAA2A393}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digital.Forensic.Models", "Digital.Forensic.Models\Digital.Forensic.Models.csproj", "{7C245E71-FABC-4A6C-9F62-909250B766A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digital.Forensic.Common", "Digital.Forensic.Common\Digital.Forensic.Common.csproj", "{35351E28-CEE1-4699-A478-03058DAC828F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Digital.Forensic.Secure", "Digital.Forensic.Secure\Digital.Forensic.Secure.csproj", "{B3FA70D2-52E2-4059-97E4-92CBE22F1B07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35DF39D6-C9F8-4103-851A-48096955B104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35DF39D6-C9F8-4103-851A-48096955B104}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35DF39D6-C9F8-4103-851A-48096955B104}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35DF39D6-C9F8-4103-851A-48096955B104}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9EED3FA-6C57-4CDD-83A4-AEC5BB7ACF29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9EED3FA-6C57-4CDD-83A4-AEC5BB7ACF29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9EED3FA-6C57-4CDD-83A4-AEC5BB7ACF29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9EED3FA-6C57-4CDD-83A4-AEC5BB7ACF29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B37B5B84-31D4-409F-A7A4-3EC2FAA2A393}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B37B5B84-31D4-409F-A7A4-3EC2FAA2A393}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B37B5B84-31D4-409F-A7A4-3EC2FAA2A393}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B37B5B84-31D4-409F-A7A4-3EC2FAA2A393}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C245E71-FABC-4A6C-9F62-909250B766A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C245E71-FABC-4A6C-9F62-909250B766A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C245E71-FABC-4A6C-9F62-909250B766A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C245E71-FABC-4A6C-9F62-909250B766A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35351E28-CEE1-4699-A478-03058DAC828F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35351E28-CEE1-4699-A478-03058DAC828F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35351E28-CEE1-4699-A478-03058DAC828F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35351E28-CEE1-4699-A478-03058DAC828F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3FA70D2-52E2-4059-97E4-92CBE22F1B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3FA70D2-52E2-4059-97E4-92CBE22F1B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3FA70D2-52E2-4059-97E4-92CBE22F1B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3FA70D2-52E2-4059-97E4-92CBE22F1B07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

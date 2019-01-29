@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DigitalForensicModelStoreContainer" CdmEntityContainer="DigitalForensicEntities">
+    <EntitySetMapping Name="Actors">
+      <EntityTypeMapping TypeName="DigitalForensicModel.Actor">
+        <MappingFragment StoreEntitySet="Actors">
+          <ScalarProperty Name="AID" ColumnName="AID" />
+          <ScalarProperty Name="WID" ColumnName="WID" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Admins">
+      <EntityTypeMapping TypeName="DigitalForensicModel.Admin">
+        <MappingFragment StoreEntitySet="Admin">
+          <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+          <ScalarProperty Name="AdminSurname" ColumnName="AdminSurname" />
+          <ScalarProperty Name="AdminFirstname" ColumnName="AdminFirstname" />
+          <ScalarProperty Name="AdminMiddlename" ColumnName="AdminMiddlename" />
+          <ScalarProperty Name="AdminUsername" ColumnName="AdminUsername" />
+          <ScalarProperty Name="AdminPassword" ColumnName="AdminPassword" />
+          <ScalarProperty Name="AdminPhone" ColumnName="AdminPhone" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdminLogins">
+      <EntityTypeMapping TypeName="DigitalForensicModel.AdminLogin">
+        <MappingFragment StoreEntitySet="AdminLogin">
+          <ScalarProperty Name="loginID" ColumnName="loginID" />
+          <ScalarProperty Name="adminUsername" ColumnName="adminUsername" />
+          <ScalarProperty Name="adminPassword" ColumnName="adminPassword" />
+          <ScalarProperty Name="adminLoginDate" ColumnName="adminLoginDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GsmValidators">
+      <EntityTypeMapping TypeName="DigitalForensicModel.GsmValidator">
+        <MappingFragment StoreEntitySet="GsmValidator">
+          <ScalarProperty Name="ID_GsmFormat" ColumnName="ID_GsmFormat" />
+          <ScalarProperty Name="ProviderCode" ColumnName="ProviderCode" />
+          <ScalarProperty Name="Gsm1st3Digits" ColumnName="Gsm1st3Digits" />
+          <ScalarProperty Name="GsmNoLenght" ColumnName="GsmNoLenght" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WorkSchedules">
+      <EntityTypeMapping TypeName="DigitalForensicModel.WorkSchedule">
+        <MappingFragment StoreEntitySet="WorkSchedule">
+          <ScalarProperty Name="WID" ColumnName="WID" />
+          <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
+          <ScalarProperty Name="NoOfActors" ColumnName="NoOfActors" />
+          <ScalarProperty Name="GeneratedBy" ColumnName="GeneratedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="DigitalForensicModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+          <ScalarProperty Name="HasChangedPassword" ColumnName="HasChangedPassword" />
+          <ScalarProperty Name="isActivated" ColumnName="isActivated" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CapturedBy" ColumnName="CapturedBy" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="UID" ColumnName="UID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DCoCs">
+      <EntityTypeMapping TypeName="DigitalForensicModel.DCoC">
+        <MappingFragment StoreEntitySet="DCoC">
+          <ScalarProperty Name="DCoCFileDataEnc" ColumnName="DCoCFileDataEnc" />
+          <ScalarProperty Name="DCoCFileData" ColumnName="DCoCFileData" />
+          <ScalarProperty Name="DCoCFileExtension" ColumnName="DCoCFileExtension" />
+          <ScalarProperty Name="DCoCFileName" ColumnName="DCoCFileName" />
+          <ScalarProperty Name="WID" ColumnName="WID" />
+          <ScalarProperty Name="FileID" ColumnName="FileID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DigitalEvidences">
+      <EntityTypeMapping TypeName="DigitalForensicModel.DigitalEvidence">
+        <MappingFragment StoreEntitySet="DigitalEvidence">
+          <ScalarProperty Name="FileHashedValue" ColumnName="FileHashedValue" />
+          <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FileDataEnc" ColumnName="FileDataEnc" />
+          <ScalarProperty Name="FileData" ColumnName="FileData" />
+          <ScalarProperty Name="WID" ColumnName="WID" />
+          <ScalarProperty Name="FileID" ColumnName="FileID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

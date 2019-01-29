@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DigitalForensicModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Actor">
+    <Key>
+      <PropertyRef Name="AID" />
+    </Key>
+    <Property Name="AID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="WID" Type="Int32" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="AdminID" />
+    </Key>
+    <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AdminSurname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AdminFirstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AdminMiddlename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="AdminUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AdminPassword" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AdminPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="Role" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AdminLogin">
+    <Key>
+      <PropertyRef Name="loginID" />
+    </Key>
+    <Property Name="loginID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="adminUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="adminPassword" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="adminLoginDate" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="GsmValidator">
+    <Key>
+      <PropertyRef Name="ID_GsmFormat" />
+    </Key>
+    <Property Name="ID_GsmFormat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProviderCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Gsm1st3Digits" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="GsmNoLenght" Type="Int32" />
+  </EntityType>
+  <EntityType Name="WorkSchedule">
+    <Key>
+      <PropertyRef Name="WID" />
+    </Key>
+    <Property Name="WID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PublicKey" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NoOfActors" Type="Int32" Nullable="false" />
+    <Property Name="GeneratedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityContainer Name="DigitalForensicEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Actors" EntityType="Self.Actor" />
+    <EntitySet Name="Admins" EntityType="Self.Admin" />
+    <EntitySet Name="AdminLogins" EntityType="Self.AdminLogin" />
+    <EntitySet Name="GsmValidators" EntityType="Self.GsmValidator" />
+    <EntitySet Name="WorkSchedules" EntityType="Self.WorkSchedule" />
+    <EntitySet Name="Users" EntityType="DigitalForensicModel.User" />
+    <EntitySet Name="DCoCs" EntityType="DigitalForensicModel.DCoC" />
+    <EntitySet Name="DigitalEvidences" EntityType="DigitalForensicModel.DigitalEvidence" />
+  </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UID" />
+    </Key>
+    <Property Name="UID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Firstname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="CapturedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="isActivated" Type="Boolean" />
+    <Property Name="HasChangedPassword" Type="Boolean" />
+    <Property Name="UserRole" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="ActivationCode" Type="Guid" />
+  </EntityType>
+  <EntityType Name="DCoC">
+    <Key>
+      <PropertyRef Name="FileID" />
+    </Key>
+    <Property Name="FileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="WID" Type="Int32" />
+    <Property Name="DCoCFileName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="DCoCFileExtension" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DCoCFileData" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="DCoCFileDataEnc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DigitalEvidence">
+    <Key>
+      <PropertyRef Name="FileID" />
+    </Key>
+    <Property Name="FileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="WID" Type="Int32" Nullable="false" />
+    <Property Name="FileData" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="FileDataEnc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="FileName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="FileExtension" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FileHashedValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

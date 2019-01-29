@@ -1,0 +1,21 @@
+@Html.DevExpress().CheckBoxList(chs =>
+{
+    chs.Name = "checkBoxList";
+    chs.Properties.ValueType = typeof(string);
+    chs.ClientEnabled = false;
+    chs.Properties.RepeatColumns = 3;
+    chs.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    chs.Properties.RepeatDirection = System.Web.UI.WebControls.RepeatDirection.Horizontal;
+    if (Session["actors"] != null)
+    {
+        List<string> list = Session["actors"] as List<string>;
+        if (list == null)
+            return;
+        int startIndex = chs.Properties.Items.Count;
+        int endIndex = chs.Properties.Items.Count + list.Count;
+        for (int i = startIndex; i < endIndex; i++)
+        {
+            chs.Properties.Items.Add(list[i]);
+        }
+    }
+}).GetHtml()

@@ -1,0 +1,130 @@
+@using System.Web.UI.WebControls
+
+@{
+    System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("en-US");
+    ci.NumberFormat.CurrencySymbol = "";
+    System.Threading.Thread.CurrentThread.CurrentCulture = ci;
+}
+
+
+@{
+    var grid = Html.DevExpress().GridView(settings => {
+        settings.Name = "UsersGridView";
+        settings.CallbackRouteValues = new { Controller = "Admin", Action = "UsersGridViewPartial" };
+        settings.SettingsSearchPanel.Visible = false;
+        settings.SettingsText.SearchPanelEditorNullText = "Enter Text to Search...";
+        settings.Width = Unit.Percentage(100);
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.Page;
+
+        settings.KeyFieldName = "UID";
+
+        settings.SettingsLoadingPanel.Mode = GridViewLoadingPanelMode.Disabled;
+
+        settings.ClientSideEvents.SelectionChanged = "OnSelectionChanged";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = false;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+        settings.Columns.Add(column =>
+        {
+            column.Width = 15;
+            column.EditFormSettings.Visible = DefaultBoolean.False;
+            column.Settings.AllowSort = DefaultBoolean.False;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+
+            column.SetDataItemTemplateContent(c =>
+            {
+                var content = "<div>" +
+                                        "<button type = \"button\" class=\"btn dropdown-toggle btn-xs\" data-toggle=\"dropdown\" data-hover=\"dropdown\" data-close-others=\"true\" id=\"actionGroup\">" +
+                                            " <i class=\"caret\"></i>" +
+                                         "</button>" +
+                                         "<ul class=\"dropdown-menu \" role=\"menu\" style=\"min-width:0;left: unset;top:auto !important;text-align: left\">" +
+                                              "<li> " +
+                                                 "<a href = \"javascript:;\" onclick=\"GetUserToUpdate('{0}')\">&nbsp;&nbsp;Change</a>" +
+                                            " </li>" +
+                                             "<li>" +
+                                                 "<a href = \"javascript:;\" onclick=\"DeleteASingleUser('{0}');\">&nbsp;&nbsp;Delete</a>" +
+                                            "</li>" +
+                                        " </ul>" +
+                                     "</div>";
+                ViewContext.Writer.Write(string.Format(content, DataBinder.Eval(c.DataItem, "UID")));
+            });
+        });
+
+        settings.Columns.Add(m=>
+        {
+            m.FieldName = "UID";
+            m.Caption = "ID";
+            m.PropertiesEdit.DisplayFormatString = "#,#";
+            m.HeaderStyle.HorizontalAlign = HorizontalAlign.Right;
+            m.CellStyle.HorizontalAlign = HorizontalAlign.Right;
+        });
+        settings.Columns.Add(m=>
+        {
+            m.FieldName = "Surname";
+            m.Caption = "Surname";
+            m.CellStyle.Wrap = DefaultBoolean.False;
+        });
+        settings.Columns.Add(m=>
+        {
+            m.FieldName = "Firstname";
+            m.Caption = "Firstname";
+            m.CellStyle.Wrap = DefaultBoolean.False;
+        });
+        settings.Columns.Add(m=>
+        {
+            m.FieldName = "Username";
+            m.Caption = "Username";
+            m.CellStyle.Wrap = DefaultBoolean.False;
+        });
+        settings.Columns.Add(m=>
+        {
+            m.FieldName = "Email";
+            m.Caption = "Email";
+            m.CellStyle.Wrap = DefaultBoolean.False;
+        });
+
+        settings.Settings.ShowFooter = true;
+        settings.SettingsPager.Visible = true;
+        settings.SettingsPager.FirstPageButton.Visible = true;
+        settings.SettingsPager.LastPageButton.Visible = true;
+        settings.SettingsPager.Mode = GridViewPagerMode.ShowPager;
+        settings.SettingsPager.EllipsisMode = PagerEllipsisMode.InsideNumeric;
+        settings.SettingsPager.Position = PagerPosition.Bottom;
+        settings.SettingsPager.ShowNumericButtons = true;
+        settings.SettingsPager.ShowSeparators = true;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "30" };
+
+        settings.HtmlRowCreated = (s, e) =>
+        {
+            var gv = s as MVCxGridView;
+            if (ViewBag.Key != null)
+            {
+                gv.SettingsBehavior.AllowFocusedRow = true;
+                gv.FocusedRowIndex = gv.FindVisibleIndexByKeyValue(ViewBag.Key);
+            }
+            else
+            {
+                gv.SettingsBehavior.AllowFocusedRow = false;
+            }
+        };
+
+    });
+    if (ViewData["EditError"] != null){
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

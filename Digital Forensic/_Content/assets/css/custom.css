@@ -1,0 +1,32 @@
+﻿.site-navbar .navbar-header {
+    color: #fff;
+    background-color: #dcdcdc !important;
+}
+
+.site-navbar .navbar-header img.navbar-brand-logo {
+    width: 180px;
+    height: 50px;
+}
+
+.navbar-brand {
+    background-color: #dcdcdc !important;
+    padding:10px 10px 0 20px !important;
+    font-weight: 500;
+}
+
+.page-content {
+    background: #fff;
+    color: #222 !important;
+}
+
+.page-login .page-copyright {
+    color: #222;
+}
+
+.forgot {
+    color: #222 !important;
+}
+
+.panel-btn {
+    margin: 10px 25px 5px;
+}

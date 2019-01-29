@@ -1,0 +1,5 @@
+C:\Digital Forensic\Digital.Forensic.Models\bin\Debug\Digital.Forensic.Models.dll
+C:\Digital Forensic\Digital.Forensic.Models\bin\Debug\Digital.Forensic.Models.pdb
+C:\Digital Forensic\Digital.Forensic.Models\obj\Debug\Digital.Forensic.Models.csprojResolveAssemblyReference.cache
+C:\Digital Forensic\Digital.Forensic.Models\obj\Debug\Digital.Forensic.Models.dll
+C:\Digital Forensic\Digital.Forensic.Models\obj\Debug\Digital.Forensic.Models.pdb
